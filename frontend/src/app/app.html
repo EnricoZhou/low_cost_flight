@@ -1,69 +1,226 @@
-<div class="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 antialiased selection:bg-indigo-500 selection:text-white">
-  <!-- Top Navigation Bar (Shadcn / Minimalist Swiss Style) -->
-  <nav class="sticky top-0 z-50 bg-zinc-950/80 backdrop-blur-lg border-b border-zinc-800" aria-label="Navigazione principale">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <!-- Brand Logo with Crisp SVG Icon -->
-      <a href="/" class="flex items-center gap-2.5 group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-lg p-1">
-        <div class="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-cyan-400 group-hover:border-cyan-500/50 group-hover:text-cyan-300 transition-colors shadow-sm">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="m17.8 19.2 1.7-1.7a1 1 0 0 0 0-1.4l-5-5-2.5 5.5-2-2 1.5-4.5-4.5-4.5-4.5 1.5-2-2 5.5-2.5-5-5a1 1 0 0 0-1.4 0l-1.7 1.7"></path>
+<div
+  class="min-h-screen flex flex-col bg-[var(--bg-canvas)] text-[var(--ink-primary)] antialiased selection:bg-[var(--beacon-blue)]/30 selection:text-white pb-24 transition-colors duration-200"
+>
+  <!-- Top Navigation Header (Inspired by mikes.cv editorial header) -->
+  <header
+    class="sticky top-0 z-40 bg-[var(--header-bg)] backdrop-blur-md border-b border-[var(--keyline)] transition-colors duration-200"
+    aria-label="Navigazione principale"
+  >
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <!-- Brand & Project Identifier -->
+      <a
+        href="/"
+        class="flex items-center gap-3 group cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--beacon-blue)] rounded-lg p-1"
+      >
+        <!-- Flight Beacon Radar Icon -->
+        <div
+          class="relative w-8 h-8 rounded-lg bg-[var(--bg-surface)] border border-[var(--keyline)] flex items-center justify-center text-[var(--beacon-blue)] group-hover:border-[var(--beacon-blue)]/50 transition-colors shadow-inner"
+        >
+          <svg
+            class="w-4 h-4 transform -rotate-45"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"
+            ></path>
           </svg>
-        </div>
-        <div class="flex flex-col">
-          <span class="text-sm font-bold tracking-tight text-white leading-none">
-            SkyDeal<span class="text-cyan-400 font-extrabold">Finder</span>
+          <span class="absolute -top-1 -right-1 flex h-2 w-2">
+            <span
+              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--beacon-emerald)] opacity-75"
+            ></span>
+            <span
+              class="relative inline-flex rounded-full h-2 w-2 bg-[var(--beacon-emerald)]"
+            ></span>
           </span>
-          <span class="text-[10px] text-zinc-400 font-medium tracking-wider uppercase mt-0.5">Low Cost Flight Intelligence</span>
+        </div>
+
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-semibold tracking-tight text-[var(--ink-primary)]">
+              SkyDeal<span class="text-[var(--beacon-blue)] font-bold">Radar</span>
+            </span>
+            <span
+              class="font-editorial-mono text-[9px] px-1.5 py-0.5 rounded bg-[var(--bg-surface)] border border-[var(--keyline)] text-[var(--ink-secondary)]"
+            >
+              SYS.2026
+            </span>
+          </div>
+          <span class="font-editorial-mono text-[10px] text-[var(--ink-faint)]">
+            Low-Cost Flight Intelligence
+          </span>
         </div>
       </a>
 
-      <!-- Action items & Live Cache Pill -->
-      <div class="flex items-center gap-3">
-        <div class="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-emerald-950/60 border border-emerald-800/40 text-emerald-400">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" aria-hidden="true"></span>
-          <span>API & Cache Redis Online</span>
+      <!-- Minimalist Status Indicators & Action Bar -->
+      <div class="flex items-center gap-2.5 sm:gap-3">
+        <!-- Live System Metric (Editorial Mono) -->
+        <div
+          class="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--bg-surface)] border border-[var(--keyline)] text-[11px] font-editorial-mono text-[var(--ink-secondary)]"
+        >
+          <span
+            class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-emerald)] shadow-[0_0_8px_var(--beacon-emerald)]"
+          ></span>
+          <span class="text-[var(--ink-secondary)]">REDIS CACHE</span>
+          <span class="opacity-25">/</span>
+          <span class="text-[var(--ink-primary)]">ACTIVE</span>
         </div>
 
-        <a 
-          href="https://github.com/EnricoZhou/low_cost_flight" 
-          target="_blank" 
+        <!-- Light / Dark Mode Toggle Button (Inspired by mikes.cv theme switcher) -->
+        <button
+          type="button"
+          (click)="themeService.toggleTheme()"
+          [attr.aria-label]="
+            themeService.theme() === 'dark'
+              ? 'Passa alla modalità chiara'
+              : 'Passa alla modalità scura'
+          "
+          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-editorial-mono text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] bg-[var(--bg-surface)] hover:bg-[var(--bg-card-hover)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all cursor-pointer shadow-sm active:scale-95"
+          id="theme-toggle-btn"
+        >
+          @if (themeService.theme() === 'dark') {
+            <!-- Sun Icon for switching to Light -->
+            <svg
+              class="w-3.5 h-3.5 text-amber-400"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="m4.93 4.93 1.41 1.41"></path>
+              <path d="m17.66 17.66 1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="m6.34 17.66-1.41 1.41"></path>
+              <path d="m19.07 4.93-1.41 1.41"></path>
+            </svg>
+            <span class="text-[11px]">LIGHT</span>
+          } @else {
+            <!-- Moon Icon for switching to Dark -->
+            <svg
+              class="w-3.5 h-3.5 text-[var(--beacon-blue)]"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </svg>
+            <span class="text-[11px]">DARK</span>
+          }
+        </button>
+
+        <!-- GitHub Repo Link (Minimalist Keyline) -->
+        <a
+          href="https://github.com/EnricoZhou/low_cost_flight"
+          target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 text-zinc-200 hover:text-white transition-all shadow-sm focus-visible:ring-2 focus-visible:ring-indigo-500"
+          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-editorial-mono text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] bg-[var(--bg-surface)] hover:bg-[var(--bg-card-hover)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm"
           aria-label="Repository GitHub del progetto"
         >
-          <svg class="w-4 h-4 text-zinc-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path>
+          <svg
+            class="w-3.5 h-3.5 text-[var(--ink-secondary)]"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+            ></path>
           </svg>
-          <span class="hidden sm:inline">GitHub</span>
+          <span class="hidden sm:inline">GITHUB</span>
         </a>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <!-- Main Content -->
+  <!-- Main Content Area -->
   <main class="flex-1">
     <app-flight-search></app-flight-search>
   </main>
 
-  <!-- Footer (Accessible, Minimalist) -->
-  <footer class="border-t border-zinc-900 bg-zinc-950 py-10 text-center text-xs text-zinc-500">
-    <div class="max-w-7xl mx-auto px-4 space-y-3">
-      <div class="flex items-center justify-center gap-3 sm:gap-4 flex-wrap">
-        <span class="text-zinc-400 font-medium">SkyDealFinder</span>
-        <span class="text-zinc-700" aria-hidden="true">&bull;</span>
-        <span>.NET 10</span>
-        <span class="text-zinc-700" aria-hidden="true">&bull;</span>
-        <span>FastEndpoints</span>
-        <span class="text-zinc-700" aria-hidden="true">&bull;</span>
-        <span>Redis 7</span>
-        <span class="text-zinc-700" aria-hidden="true">&bull;</span>
-        <span>Angular 22</span>
-        <span class="text-zinc-700" aria-hidden="true">&bull;</span>
-        <span>Tailwind CSS</span>
-        <span class="text-zinc-700" aria-hidden="true">&bull;</span>
-        <span>Orval</span>
+  <!-- Floating Capsule Navigation / Status Bar (Inspired by mikes.cv bottom pill nav) -->
+  <aside
+    class="fixed bottom-6 inset-x-0 z-50 flex justify-center px-4 pointer-events-none"
+    aria-label="Barra di stato rapida"
+  >
+    <div
+      class="pointer-events-auto flex items-center gap-3 px-4 py-2.5 rounded-full bg-[var(--bg-surface)]/95 backdrop-blur-xl border border-[var(--keyline-hover)] shadow-2xl text-xs font-editorial-mono text-[var(--ink-secondary)] transition-all"
+    >
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-[var(--beacon-emerald)] animate-pulse"></span>
+        <span class="text-[var(--ink-primary)] font-medium">RADAR ACTIVE</span>
       </div>
-      <p>Progettato seguendo le linee guida di UI/UX Pro Max &copy; 2026. Tutti i diritti riservati.</p>
+
+      <span class="opacity-25">|</span>
+
+      <span class="text-[var(--ink-secondary)] hidden sm:inline"
+        >FASTENDPOINTS // REDIS 7 // ANGULAR</span
+      >
+
+      <span class="opacity-25 hidden sm:inline">|</span>
+
+      <!-- Theme Switch shortcut inside floating capsule -->
+      <button
+        type="button"
+        (click)="themeService.toggleTheme()"
+        class="text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] transition-colors flex items-center gap-1 cursor-pointer"
+        aria-label="Cambia tema chiaro/scuro"
+      >
+        <span>MODE:</span>
+        <span class="text-[var(--beacon-blue)] font-bold uppercase">{{
+          themeService.theme()
+        }}</span>
+      </button>
+
+      <span class="opacity-25">|</span>
+
+      <a
+        href="#search-terminal"
+        class="text-[var(--beacon-blue)] hover:opacity-80 transition-opacity flex items-center gap-1"
+      >
+        <span>SEARCH ↑</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Minimalist Editorial Footer -->
+  <footer
+    class="border-t border-[var(--keyline)] bg-[var(--footer-bg)] py-12 text-center text-xs text-[var(--ink-faint)] transition-colors duration-200"
+  >
+    <div class="max-w-6xl mx-auto px-4 space-y-4">
+      <div
+        class="flex items-center justify-center gap-3 sm:gap-5 flex-wrap font-editorial-mono text-[11px] text-[var(--ink-secondary)]"
+      >
+        <span>SKYDEAL // RADAR</span>
+        <span class="opacity-25">/</span>
+        <span>.NET 10 FASTENDPOINTS</span>
+        <span class="opacity-25">/</span>
+        <span>REDIS MEMORY CACHE</span>
+        <span class="opacity-25">/</span>
+        <span>ORVAL TYPE-SAFE CONTRACTS</span>
+        <span class="opacity-25">/</span>
+        <span>TAILWIND CSS</span>
+      </div>
+      <p class="font-editorial-mono text-[10px] text-[var(--ink-faint)]">
+        DESIGN PARADIGM DERIVED FROM MIKES.CV // MINIMAL EDITORIAL RADAR INTERFACE &copy; 2026
+      </p>
     </div>
   </footer>
 </div>

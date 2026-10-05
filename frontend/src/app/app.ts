@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FlightSearchComponent } from './feature/flights/components/flight-search/flight-search';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [FlightSearchComponent],
-  templateUrl: './app.html'
+  imports: [CommonModule, FlightSearchComponent],
+  templateUrl: './app.html',
 })
-export class App { }
+export class App {
+  readonly themeService = inject(ThemeService);
+}

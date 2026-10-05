@@ -8,7 +8,7 @@ import { LowCostFlightFlightsSearchFlightsFlightDealItem } from '../../../../cor
   selector: 'app-flight-search',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './flight-search.html'
+  templateUrl: './flight-search.html',
 })
 export class FlightSearchComponent {
   private readonly flightService = inject(LowCostFlightService);
@@ -117,7 +117,7 @@ export class FlightSearchComponent {
         outboundDate: this.outboundDate() || null,
         returnDate: this.returnDate() || null,
         maxPrice: this.maxPrice(),
-        stops: this.stops() !== 0 ? this.stops() : null
+        stops: this.stops() !== 0 ? this.stops() : null,
       })
       .subscribe({
         next: (response) => {
@@ -126,11 +126,12 @@ export class FlightSearchComponent {
         },
         error: (err) => {
           console.error('Errore chiamata voli:', err);
-          const detail = err?.error?.message || err?.message || 'Errore nel recupero delle offerte voli.';
+          const detail =
+            err?.error?.message || err?.message || 'Errore nel recupero delle offerte voli.';
           this.errorMessage.set(detail);
           this.flights.set([]);
           this.isLoading.set(false);
-        }
+        },
       });
   }
 
