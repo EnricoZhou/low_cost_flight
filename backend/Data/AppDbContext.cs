@@ -6,12 +6,26 @@ namespace low_cost_flight.Data;
 
 public class AppDbContext : AuditDbContext
 {
+    public AppDbContext()
+    {
+    }
+
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
-
     }
+
     public DbSet<FlightDeal> FlightDeals => Set<FlightDeal>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+    public DbSet<User> Users => Set<User>();
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer("Server=localhost;Database=LowCostFlightDb;Trusted_Connection=True;TrustServerCertificate=True;");
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -49,6 +63,26 @@ public class AppDbContext : AuditDbContext
                   .HasMaxLength(100);
             entity.HasIndex(e => e.EventDate);
         });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.Property(e => e.Email)
+                  .HasMaxLength(256)
+                  .IsRequired();
+            entity.Property(e => e.FullName)
+                  .HasMaxLength(150)
+                  .IsRequired();
+            entity.Property(e => e.PasswordHash)
+                  .HasMaxLength(256);
+            entity.Property(e => e.PictureUrl)
+                  .HasMaxLength(1024);
+            entity.Property(e => e.GoogleId)
+                  .HasMaxLength(128);
+            entity.Property(e => e.Role)
+                  .HasMaxLength(50);
+            entity.HasIndex(e => e.Email)
+                  .IsUnique();
+            entity.HasIndex(e => e.GoogleId);
+        });
     }
 }
-
