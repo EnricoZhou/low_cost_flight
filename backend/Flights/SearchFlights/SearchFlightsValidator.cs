@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace low_cost_flight.Flights.SearchFlights
 {
-    public class SearchFlightsValidator: Validator<SearchFlightsRequest>
+    public class SearchFlightsValidator : Validator<SearchFlightsRequest>
     {
         public SearchFlightsValidator()
         {

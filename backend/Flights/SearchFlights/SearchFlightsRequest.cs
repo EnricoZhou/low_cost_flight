@@ -9,12 +9,12 @@ public record SearchFlightsRequest
     public DateOnly? ReturnDate { get; init; }
     public int? MaxPrice { get; init; }
     public string? Hl { get; init; } = "it";
-    public string? Gl {get; init;} = "it";
+    public string? Gl { get; init; } = "it";
 
     // 0 - Any number of stops (default)
     // 1 - Nonstop only
     // 2 - 1 stop or fewer
     // 3 - 2 stops or fewer
-    public int? Stops {get; init;} = 0; 
+    public int? Stops { get; init; } = 0;
 
 }

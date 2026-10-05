@@ -16,6 +16,6 @@ public record FlightDealItem
     public int DurationInMinutes { get; init; }
     public string Airline { get; init; } = string.Empty;
     public string FlightLink { get; init; } = string.Empty;
-    public string Description {get; init;} = string.Empty;
+    public string Description { get; init; } = string.Empty;
     public int Stops { get; init; }
 }
