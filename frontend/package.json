@@ -1,5 +1,6 @@
 {
   "name": "client",
+  "type": "module",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,6 +8,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "generate-api": "orval",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format:check": "prettier --check \"src/**/*.{ts,html,css,json}\"",
+    "format": "prettier --write \"src/**/*.{ts,html,css,json}\"",
     "test": "ng test"
   },
   "private": true,
@@ -25,13 +30,17 @@
     "@angular/build": "^22.2.1",
     "@angular/cli": "^22.2.1",
     "@angular/compiler-cli": "^22.2.0",
+    "@eslint/js": "^10.0.1",
     "@tailwindcss/postcss": "^4.3.3",
+    "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
     "jsdom": "^30.0.0",
     "orval": "^8.40.0",
     "postcss": "^8.5.29",
     "prettier": "^3.8.1",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.2",
+    "typescript-eslint": "^8.71.0",
     "vitest": "^5.0.0"
   }
 }
