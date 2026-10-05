@@ -1,0 +1,69 @@
+@low_cost_flight_HostAddress = http://localhost:5273
+
+### 1. Ricerca offerte da Roma (FCO)
+GET {{low_cost_flight_HostAddress}}/api/flights/search?departureId=FCO
+Accept: application/json
+
+### 2. Ricerca offerte da Milano (MXP) con budget massimo di 100 EUR
+GET {{low_cost_flight_HostAddress}}/api/flights/search?departureId=MXP&maxPrice=100&currency=EUR
+Accept: application/json
+
+### 3. Ricerca con destinazione specifica (es. Parigi CDG)
+GET {{low_cost_flight_HostAddress}}/api/flights/search?departureId=FCO&arrivalId=CDG
+Accept: application/json
+
+### 4. CRUD: Crea nuova offerta volo (POST)
+POST {{low_cost_flight_HostAddress}}/api/flight-deals
+Content-Type: application/json
+
+{
+  "departureAirport": "MXP",
+  "arrivalAirport": "BCN",
+  "nameCity": "Barcellona",
+  "country": "Spagna",
+  "price": 29.99,
+  "averagePrice": 85.00,
+  "discountPercentage": 65,
+  "currency": "EUR",
+  "durationInMinutes": 95,
+  "airline": "Ryanair",
+  "flightLink": "https://www.ryanair.com",
+  "description": "Volo diretto economico per Barcellona",
+  "stops": 0
+}
+
+### 5. CRUD: Recupera tutte le offerte dal DB (GET)
+GET {{low_cost_flight_HostAddress}}/api/flight-deals
+Accept: application/json
+
+### 6. CRUD: Recupera offerte con filtri (GET)
+GET {{low_cost_flight_HostAddress}}/api/flight-deals?departureAirport=MXP&maxPrice=50
+Accept: application/json
+
+### 7. CRUD: Recupera offerta per ID (GET)
+GET {{low_cost_flight_HostAddress}}/api/flight-deals/1
+Accept: application/json
+
+### 8. CRUD: Aggiorna offerta per ID (PUT)
+PUT {{low_cost_flight_HostAddress}}/api/flight-deals/1
+Content-Type: application/json
+
+{
+  "departureAirport": "MXP",
+  "arrivalAirport": "BCN",
+  "nameCity": "Barcellona",
+  "country": "Spagna",
+  "price": 24.99,
+  "averagePrice": 85.00,
+  "discountPercentage": 70,
+  "currency": "EUR",
+  "durationInMinutes": 95,
+  "airline": "Ryanair",
+  "flightLink": "https://www.ryanair.com",
+  "description": "Prezzo ulteriormente ribassato!",
+  "stops": 0
+}
+
+### 9. CRUD: Elimina offerta per ID (DELETE)
+DELETE {{low_cost_flight_HostAddress}}/api/flight-deals/1
+
