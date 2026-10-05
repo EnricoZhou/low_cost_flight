@@ -1,0 +1,217 @@
+@if (authService.isAuthModalOpen()) {
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-md transition-all animate-in fade-in duration-200"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="auth-modal-title"
+  >
+    <!-- Modal Card (mikes.cv editorial aesthetic) -->
+    <div
+      class="w-full max-w-md bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-2xl p-6 sm:p-8 shadow-2xl relative transition-all"
+    >
+      <!-- Header with Close Button -->
+      <div class="flex items-center justify-between pb-4 mb-5 border-b border-[var(--keyline)]">
+        <div class="flex items-center gap-2">
+          <span
+            class="w-2 h-2 rounded-full bg-[var(--beacon-blue)] shadow-[0_0_8px_var(--beacon-blue)]"
+          ></span>
+          <span
+            id="auth-modal-title"
+            class="font-editorial-mono text-xs text-[var(--ink-primary)] font-bold tracking-wider"
+          >
+            AUTH // RADAR ACCESS
+          </span>
+        </div>
+
+        <button
+          type="button"
+          (click)="authService.closeAuthModal()"
+          aria-label="Chiudi finestra di autenticazione"
+          class="w-8 h-8 rounded-full bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)] text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] flex items-center justify-center transition-all cursor-pointer border border-[var(--keyline)]"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Google OAuth Button -->
+      <div class="space-y-3 mb-6">
+        <button
+          type="button"
+          (click)="onGoogleLogin()"
+          [disabled]="authService.isLoading()"
+          class="w-full min-h-[46px] px-4 py-2.5 rounded-xl font-editorial-mono text-xs font-semibold bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] text-[var(--ink-primary)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] flex items-center justify-center gap-3 transition-all cursor-pointer shadow-sm active:scale-[0.99] disabled:opacity-50"
+        >
+          <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+            <path
+              fill="#4285F4"
+              d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.65v3h3.88c2.27-2.09 3.665-5.17 3.665-9.09z"
+            />
+            <path
+              fill="#34A853"
+              d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.28v3.09C3.31 21.44 7.37 24 12 24z"
+            />
+            <path
+              fill="#FBBC05"
+              d="M5.28 14.32c-.25-.72-.38-1.49-.38-2.32s.13-1.6.38-2.32V6.59H1.28C.46 8.22 0 10.06 0 12s.46 3.78 1.28 5.41l4-3.09z"
+            />
+            <path
+              fill="#EA4335"
+              d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.37 0 3.31 2.56 1.28 6.59l4 3.09c.95-2.83 3.6-4.93 6.72-4.93z"
+            />
+          </svg>
+          <span>ACCEDI CON GOOGLE OAUTH</span>
+        </button>
+      </div>
+
+      <!-- Divider -->
+      <div class="relative flex items-center justify-center mb-6">
+        <div class="w-full border-t border-[var(--keyline)]"></div>
+        <span
+          class="absolute bg-[var(--bg-surface)] px-3 font-editorial-mono text-[10px] text-[var(--ink-faint)] tracking-widest"
+        >
+          OPPURE CON EMAIL
+        </span>
+      </div>
+
+      <!-- Segmented Tab: Login vs Register -->
+      <div
+        class="inline-flex w-full p-1 mb-5 rounded-xl bg-[var(--bg-input)] border border-[var(--keyline)] font-editorial-mono text-[11px]"
+        role="tablist"
+      >
+        <button
+          type="button"
+          role="tab"
+          [attr.aria-selected]="activeTab() === 'login'"
+          (click)="setTab('login')"
+          class="flex-1 min-h-[34px] py-1.5 rounded-lg transition-all cursor-pointer text-center"
+          [class]="
+            activeTab() === 'login'
+              ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
+              : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
+          "
+        >
+          ACCEDI [LOGIN]
+        </button>
+        <button
+          type="button"
+          role="tab"
+          [attr.aria-selected]="activeTab() === 'register'"
+          (click)="setTab('register')"
+          class="flex-1 min-h-[34px] py-1.5 rounded-lg transition-all cursor-pointer text-center"
+          [class]="
+            activeTab() === 'register'
+              ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
+              : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
+          "
+        >
+          REGISTRATI [REGISTER]
+        </button>
+      </div>
+
+      <!-- Error Alert -->
+      @if (authService.errorMessage()) {
+        <div
+          class="flex items-center gap-2.5 p-3.5 mb-5 bg-red-950/20 border border-red-800/40 rounded-xl text-red-400 text-xs font-editorial-mono"
+          role="alert"
+        >
+          <svg
+            class="w-4 h-4 shrink-0"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <p>{{ authService.errorMessage() }}</p>
+        </div>
+      }
+
+      <!-- Form -->
+      <form (ngSubmit)="onSubmit()" class="space-y-4">
+        @if (activeTab() === 'register') {
+          <div class="space-y-1.5">
+            <label
+              for="fullName"
+              class="font-editorial-mono text-[11px] text-[var(--ink-secondary)]"
+            >
+              NOME COMPLETO
+            </label>
+            <input
+              id="fullName"
+              type="text"
+              [ngModel]="fullName()"
+              (ngModelChange)="fullName.set($event)"
+              name="fullName"
+              placeholder="Es. Marco Rossi"
+              required
+              class="w-full min-h-[44px] px-3.5 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] transition-all"
+            />
+          </div>
+        }
+
+        <div class="space-y-1.5">
+          <label for="email" class="font-editorial-mono text-[11px] text-[var(--ink-secondary)]">
+            INDIRIZZO EMAIL
+          </label>
+          <input
+            id="email"
+            type="email"
+            [ngModel]="email()"
+            (ngModelChange)="email.set($event)"
+            name="email"
+            placeholder="nome@esempio.com"
+            required
+            class="w-full min-h-[44px] px-3.5 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] transition-all"
+          />
+        </div>
+
+        <div class="space-y-1.5">
+          <label for="password" class="font-editorial-mono text-[11px] text-[var(--ink-secondary)]">
+            PASSWORD
+          </label>
+          <input
+            id="password"
+            type="password"
+            [ngModel]="password()"
+            (ngModelChange)="password.set($event)"
+            name="password"
+            placeholder="Minimo 6 caratteri"
+            required
+            class="w-full min-h-[44px] px-3.5 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] transition-all"
+          />
+        </div>
+
+        <div class="pt-2">
+          <button
+            type="submit"
+            [disabled]="authService.isLoading()"
+            class="w-full min-h-[46px] py-3 px-5 rounded-xl font-editorial-mono text-xs font-bold tracking-widest text-[var(--btn-primary-text)] bg-[var(--btn-primary-bg)] hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer shadow-md active:scale-[0.99]"
+          >
+            @if (authService.isLoading()) {
+              <span
+                class="inline-block w-4 h-4 border-2 border-[var(--btn-primary-text)] border-t-transparent rounded-full animate-spin"
+                aria-hidden="true"
+              ></span>
+              <span>AUTENTICAZIONE IN CORSO...</span>
+            } @else {
+              <span>{{
+                activeTab() === 'login' ? 'ACCEDI ALLA SESSIONE' : 'CREA NUOVO ACCOUNT'
+              }}</span>
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
