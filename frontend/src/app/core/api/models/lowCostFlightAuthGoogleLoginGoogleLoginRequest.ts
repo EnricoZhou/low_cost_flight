@@ -5,6 +5,6 @@
  * OpenAPI spec version: v1
  */
 
-export interface LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsRequest {
-  [key: string]: unknown;
+export interface LowCostFlightAuthGoogleLoginGoogleLoginRequest {
+  idToken?: string;
 }
