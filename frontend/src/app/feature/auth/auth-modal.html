@@ -42,12 +42,13 @@
       </div>
 
       <!-- Google OAuth Button -->
-      <div class="space-y-3 mb-6">
+      <div class="space-y-3 mb-5">
         <button
           type="button"
           (click)="onGoogleLogin()"
           [disabled]="authService.isLoading()"
           class="w-full min-h-[46px] px-4 py-2.5 rounded-xl font-editorial-mono text-xs font-semibold bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] text-[var(--ink-primary)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] flex items-center justify-center gap-3 transition-all cursor-pointer shadow-sm active:scale-[0.99] disabled:opacity-50"
+          id="google-login-btn"
         >
           <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24">
             <path
@@ -69,10 +70,53 @@
           </svg>
           <span>ACCEDI CON GOOGLE OAUTH</span>
         </button>
+
+        <!-- Localhost Note & Expandable Config -->
+        <div class="text-center">
+          <button
+            type="button"
+            (click)="toggleGoogleConfig()"
+            class="font-editorial-mono text-[10px] text-[var(--ink-faint)] hover:text-[var(--ink-secondary)] underline cursor-pointer"
+          >
+            {{
+              showGoogleConfig()
+                ? 'Nascondi configurazione'
+                : '⚙️ Configura Client ID Google Console'
+            }}
+          </button>
+        </div>
+
+        @if (showGoogleConfig()) {
+          <div
+            class="p-3 bg-[var(--bg-input)] rounded-xl border border-[var(--keyline)] space-y-2 text-left animate-in fade-in duration-150"
+          >
+            <p class="font-editorial-mono text-[10px] text-[var(--ink-secondary)]">
+              Per usare Google Sign-In reale su localhost, inserisci il Client ID Web creato su
+              Google Cloud Console (con autorizzazione per
+              <code class="text-[var(--beacon-blue)]">http://localhost:4200</code>):
+            </p>
+            <div class="flex gap-2">
+              <input
+                type="text"
+                [ngModel]="googleClientId()"
+                (ngModelChange)="googleClientId.set($event)"
+                placeholder="es. 12345-abc.apps.googleusercontent.com"
+                class="flex-1 min-h-[36px] px-2.5 py-1 text-xs font-mono bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-lg text-[var(--ink-primary)]"
+              />
+              <button
+                type="button"
+                (click)="saveGoogleClientId()"
+                class="px-3 py-1 font-editorial-mono text-[10px] font-bold bg-[var(--beacon-blue)] text-white rounded-lg cursor-pointer"
+              >
+                SALVA
+              </button>
+            </div>
+          </div>
+        }
       </div>
 
       <!-- Divider -->
-      <div class="relative flex items-center justify-center mb-6">
+      <div class="relative flex items-center justify-center mb-5">
         <div class="w-full border-t border-[var(--keyline)]"></div>
         <span
           class="absolute bg-[var(--bg-surface)] px-3 font-editorial-mono text-[10px] text-[var(--ink-faint)] tracking-widest"
