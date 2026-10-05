@@ -8,4 +8,4 @@
 /**
  * the collection of errors for the current context
  */
-export type FastEndpointsErrorResponseErrors = {[key: string]: string[]};
+export type FastEndpointsErrorResponseErrors = { [key: string]: string[] };

@@ -4,23 +4,12 @@
  * low cost flight
  * OpenAPI spec version: 1.0.0
  */
-import {
-  HttpClient
-} from '@angular/common/http';
-import type {
-  HttpContext,
-  HttpEvent,
-  HttpParams
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import type { HttpContext, HttpEvent, HttpParams } from '@angular/common/http';
 
-import {
-  Injectable,
-  inject
-} from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
-import type {
-  Observable
-} from 'rxjs';
+import type { Observable } from 'rxjs';
 
 import type {
   LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest,
@@ -31,22 +20,16 @@ import type {
   LowCostFlightFlightsSearchFlightsSearchFlightsEndpointParams,
   LowCostFlightFlightsSearchFlightsSearchFlightsResponse,
   LowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest,
-  LowCostFlightFlightsUpdateFlightDealUpdateFlightDealResponse
+  LowCostFlightFlightsUpdateFlightDealUpdateFlightDealResponse,
 } from './models';
 
-import type {
-  HttpHeaders,
-  HttpResponse as AngularHttpResponse
-} from '@angular/common/http';
-
-
+import type { HttpHeaders, HttpResponse as AngularHttpResponse } from '@angular/common/http';
 
 interface HttpClientOptions {
   readonly headers?: HttpHeaders | Record<string, string | string[]>;
   readonly context?: HttpContext;
   readonly params?:
-        | HttpParams
-      | Record<string, string | number | boolean | Array<string | number | boolean>>;
+    HttpParams | Record<string, string | number | boolean | Array<string | number | boolean>>;
   readonly reportProgress?: boolean;
   readonly withCredentials?: boolean;
   readonly credentials?: RequestCredentials;
@@ -58,7 +41,7 @@ interface HttpClientOptions {
   readonly referrer?: string;
   readonly integrity?: string;
   readonly referrerPolicy?: ReferrerPolicy;
-  readonly transferCache?: {includeHeaders?: string[]} | boolean;
+  readonly transferCache?: { includeHeaders?: string[] } | boolean;
   readonly timeout?: number;
 }
 
@@ -123,9 +106,9 @@ function filterParams(
               typeof item === 'boolean' ||
               (item instanceof Date && !Number.isNaN(item.getTime()))),
         )
-        .map((item) =>
-          item instanceof Date ? item.toISOString() : item,
-        ) as Array<string | number | boolean>;
+        .map((item) => (item instanceof Date ? item.toISOString() : item)) as Array<
+        string | number | boolean
+      >;
       if (filtered.length) {
         filteredParams[key] = filtered;
       }
@@ -141,9 +124,7 @@ function filterParams(
       filteredParams[key] = value.toISOString();
     } else if (
       value != null &&
-      (typeof value === 'string' ||
-        typeof value === 'number' ||
-        typeof value === 'boolean')
+      (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean')
     ) {
       filteredParams[key] = value;
     }
@@ -151,232 +132,311 @@ function filterParams(
   return filteredParams;
 }
 
-
-
-
-
 @Injectable({ providedIn: 'root' })
 export class LowCostFlightService {
   private readonly http = inject(HttpClient);
-/**
- * Modifica i dati di un'offerta volo salvata nel database
- * @summary Aggiorna un'offerta volo esistente
- */
- lowCostFlightFlightsUpdateFlightDealUpdateFlightDealEndpoint<TData = LowCostFlightFlightsUpdateFlightDealUpdateFlightDealResponse>(id: number,
-    lowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest: LowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest, options?: HttpClientBodyOptions): Observable<TData>;
- lowCostFlightFlightsUpdateFlightDealUpdateFlightDealEndpoint<TData = LowCostFlightFlightsUpdateFlightDealUpdateFlightDealResponse>(id: number,
-    lowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest: LowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest, options?: HttpClientEventOptions): Observable<HttpEvent<TData>>;
- lowCostFlightFlightsUpdateFlightDealUpdateFlightDealEndpoint<TData = LowCostFlightFlightsUpdateFlightDealUpdateFlightDealResponse>(id: number,
-    lowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest: LowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest, options?: HttpClientResponseOptions): Observable<AngularHttpResponse<TData>>;
-  lowCostFlightFlightsUpdateFlightDealUpdateFlightDealEndpoint<TData = LowCostFlightFlightsUpdateFlightDealUpdateFlightDealResponse>(
+  /**
+   * Modifica i dati di un'offerta volo salvata nel database
+   * @summary Aggiorna un'offerta volo esistente
+   */
+  lowCostFlightFlightsUpdateFlightDealUpdateFlightDealEndpoint<
+    TData = LowCostFlightFlightsUpdateFlightDealUpdateFlightDealResponse,
+  >(
     id: number,
-    lowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest: LowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest, options?: HttpClientObserveOptions): Observable<TData | HttpEvent<TData> | AngularHttpResponse<TData>> {
+    lowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest: LowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest,
+    options?: HttpClientBodyOptions,
+  ): Observable<TData>;
+  lowCostFlightFlightsUpdateFlightDealUpdateFlightDealEndpoint<
+    TData = LowCostFlightFlightsUpdateFlightDealUpdateFlightDealResponse,
+  >(
+    id: number,
+    lowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest: LowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest,
+    options?: HttpClientEventOptions,
+  ): Observable<HttpEvent<TData>>;
+  lowCostFlightFlightsUpdateFlightDealUpdateFlightDealEndpoint<
+    TData = LowCostFlightFlightsUpdateFlightDealUpdateFlightDealResponse,
+  >(
+    id: number,
+    lowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest: LowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest,
+    options?: HttpClientResponseOptions,
+  ): Observable<AngularHttpResponse<TData>>;
+  lowCostFlightFlightsUpdateFlightDealUpdateFlightDealEndpoint<
+    TData = LowCostFlightFlightsUpdateFlightDealUpdateFlightDealResponse,
+  >(
+    id: number,
+    lowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest: LowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest,
+    options?: HttpClientObserveOptions,
+  ): Observable<TData | HttpEvent<TData> | AngularHttpResponse<TData>> {
     if (options?.observe === 'events') {
       return this.http.put<TData>(
-      `/api/flight-deals/${id}`,
-      lowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest,{
-        ...(options as Omit<NonNullable<typeof options>, 'observe'>),
-        observe: 'events',
-      }
-    );
+        `/api/flight-deals/${id}`,
+        lowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest,
+        {
+          ...(options as Omit<NonNullable<typeof options>, 'observe'>),
+          observe: 'events',
+        },
+      );
     }
 
     if (options?.observe === 'response') {
       return this.http.put<TData>(
-      `/api/flight-deals/${id}`,
-      lowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest,{
-        ...(options as Omit<NonNullable<typeof options>, 'observe'>),
-        observe: 'response',
-      }
-    );
+        `/api/flight-deals/${id}`,
+        lowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest,
+        {
+          ...(options as Omit<NonNullable<typeof options>, 'observe'>),
+          observe: 'response',
+        },
+      );
     }
 
     return this.http.put<TData>(
       `/api/flight-deals/${id}`,
-      lowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest,{
+      lowCostFlightFlightsUpdateFlightDealUpdateFlightDealRequest,
+      {
         ...(options as Omit<NonNullable<typeof options>, 'observe'>),
         observe: 'body',
-      }
+      },
     );
   }
 
-/**
- * Cerca un'offerta volo salvata nel database per chiave primaria ID
- * @summary Recupera una singola offerta volo tramite ID
- */
- lowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdEndpoint<TData = LowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdResponse>(id: number, options?: HttpClientBodyOptions): Observable<TData>;
- lowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdEndpoint<TData = LowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdResponse>(id: number, options?: HttpClientEventOptions): Observable<HttpEvent<TData>>;
- lowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdEndpoint<TData = LowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdResponse>(id: number, options?: HttpClientResponseOptions): Observable<AngularHttpResponse<TData>>;
-  lowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdEndpoint<TData = LowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdResponse>(
-    id: number, options?: HttpClientObserveOptions): Observable<TData | HttpEvent<TData> | AngularHttpResponse<TData>> {
+  /**
+   * Cerca un'offerta volo salvata nel database per chiave primaria ID
+   * @summary Recupera una singola offerta volo tramite ID
+   */
+  lowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdEndpoint<
+    TData = LowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdResponse,
+  >(id: number, options?: HttpClientBodyOptions): Observable<TData>;
+  lowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdEndpoint<
+    TData = LowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdResponse,
+  >(id: number, options?: HttpClientEventOptions): Observable<HttpEvent<TData>>;
+  lowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdEndpoint<
+    TData = LowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdResponse,
+  >(id: number, options?: HttpClientResponseOptions): Observable<AngularHttpResponse<TData>>;
+  lowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdEndpoint<
+    TData = LowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdResponse,
+  >(
+    id: number,
+    options?: HttpClientObserveOptions,
+  ): Observable<TData | HttpEvent<TData> | AngularHttpResponse<TData>> {
     if (options?.observe === 'events') {
-      return this.http.get<TData>(
-      `/api/flight-deals/${id}`,{
+      return this.http.get<TData>(`/api/flight-deals/${id}`, {
         ...(options as Omit<NonNullable<typeof options>, 'observe'>),
         observe: 'events',
-      }
-    );
+      });
     }
 
     if (options?.observe === 'response') {
-      return this.http.get<TData>(
-      `/api/flight-deals/${id}`,{
+      return this.http.get<TData>(`/api/flight-deals/${id}`, {
         ...(options as Omit<NonNullable<typeof options>, 'observe'>),
         observe: 'response',
-      }
-    );
+      });
     }
 
-    return this.http.get<TData>(
-      `/api/flight-deals/${id}`,{
-        ...(options as Omit<NonNullable<typeof options>, 'observe'>),
-        observe: 'body',
-      }
-    );
+    return this.http.get<TData>(`/api/flight-deals/${id}`, {
+      ...(options as Omit<NonNullable<typeof options>, 'observe'>),
+      observe: 'body',
+    });
   }
 
-/**
- * Rimuove definitivamente un'offerta volo dalla tabella FlightDeals per ID
- * @summary Elimina un'offerta volo dal database
- */
- lowCostFlightFlightsDeleteFlightDealDeleteFlightDealEndpoint<TData = void>(id: number, options?: HttpClientBodyOptions): Observable<TData>;
- lowCostFlightFlightsDeleteFlightDealDeleteFlightDealEndpoint<TData = void>(id: number, options?: HttpClientEventOptions): Observable<HttpEvent<TData>>;
- lowCostFlightFlightsDeleteFlightDealDeleteFlightDealEndpoint<TData = void>(id: number, options?: HttpClientResponseOptions): Observable<AngularHttpResponse<TData>>;
+  /**
+   * Rimuove definitivamente un'offerta volo dalla tabella FlightDeals per ID
+   * @summary Elimina un'offerta volo dal database
+   */
   lowCostFlightFlightsDeleteFlightDealDeleteFlightDealEndpoint<TData = void>(
-    id: number, options?: HttpClientObserveOptions): Observable<TData | HttpEvent<TData> | AngularHttpResponse<TData>> {
+    id: number,
+    options?: HttpClientBodyOptions,
+  ): Observable<TData>;
+  lowCostFlightFlightsDeleteFlightDealDeleteFlightDealEndpoint<TData = void>(
+    id: number,
+    options?: HttpClientEventOptions,
+  ): Observable<HttpEvent<TData>>;
+  lowCostFlightFlightsDeleteFlightDealDeleteFlightDealEndpoint<TData = void>(
+    id: number,
+    options?: HttpClientResponseOptions,
+  ): Observable<AngularHttpResponse<TData>>;
+  lowCostFlightFlightsDeleteFlightDealDeleteFlightDealEndpoint<TData = void>(
+    id: number,
+    options?: HttpClientObserveOptions,
+  ): Observable<TData | HttpEvent<TData> | AngularHttpResponse<TData>> {
     if (options?.observe === 'events') {
-      return this.http.delete<TData>(
-      `/api/flight-deals/${id}`,{
+      return this.http.delete<TData>(`/api/flight-deals/${id}`, {
         ...(options as Omit<NonNullable<typeof options>, 'observe'>),
         observe: 'events',
-      }
-    );
+      });
     }
 
     if (options?.observe === 'response') {
-      return this.http.delete<TData>(
-      `/api/flight-deals/${id}`,{
+      return this.http.delete<TData>(`/api/flight-deals/${id}`, {
         ...(options as Omit<NonNullable<typeof options>, 'observe'>),
         observe: 'response',
-      }
-    );
+      });
     }
 
-    return this.http.delete<TData>(
-      `/api/flight-deals/${id}`,{
-        ...(options as Omit<NonNullable<typeof options>, 'observe'>),
-        observe: 'body',
-      }
-    );
+    return this.http.delete<TData>(`/api/flight-deals/${id}`, {
+      ...(options as Omit<NonNullable<typeof options>, 'observe'>),
+      observe: 'body',
+    });
   }
 
- lowCostFlightFlightsSearchFlightsSearchFlightsEndpoint<TData = LowCostFlightFlightsSearchFlightsSearchFlightsResponse>(params: LowCostFlightFlightsSearchFlightsSearchFlightsEndpointParams, options?: HttpClientBodyOptions): Observable<TData>;
- lowCostFlightFlightsSearchFlightsSearchFlightsEndpoint<TData = LowCostFlightFlightsSearchFlightsSearchFlightsResponse>(params: LowCostFlightFlightsSearchFlightsSearchFlightsEndpointParams, options?: HttpClientEventOptions): Observable<HttpEvent<TData>>;
- lowCostFlightFlightsSearchFlightsSearchFlightsEndpoint<TData = LowCostFlightFlightsSearchFlightsSearchFlightsResponse>(params: LowCostFlightFlightsSearchFlightsSearchFlightsEndpointParams, options?: HttpClientResponseOptions): Observable<AngularHttpResponse<TData>>;
-  lowCostFlightFlightsSearchFlightsSearchFlightsEndpoint<TData = LowCostFlightFlightsSearchFlightsSearchFlightsResponse>(
-    params: LowCostFlightFlightsSearchFlightsSearchFlightsEndpointParams, options?: HttpClientObserveOptions): Observable<TData | HttpEvent<TData> | AngularHttpResponse<TData>> {
-    const filteredParams = filterParams({...params, ...options?.params}, new Set<string>([]));
+  lowCostFlightFlightsSearchFlightsSearchFlightsEndpoint<
+    TData = LowCostFlightFlightsSearchFlightsSearchFlightsResponse,
+  >(
+    params: LowCostFlightFlightsSearchFlightsSearchFlightsEndpointParams,
+    options?: HttpClientBodyOptions,
+  ): Observable<TData>;
+  lowCostFlightFlightsSearchFlightsSearchFlightsEndpoint<
+    TData = LowCostFlightFlightsSearchFlightsSearchFlightsResponse,
+  >(
+    params: LowCostFlightFlightsSearchFlightsSearchFlightsEndpointParams,
+    options?: HttpClientEventOptions,
+  ): Observable<HttpEvent<TData>>;
+  lowCostFlightFlightsSearchFlightsSearchFlightsEndpoint<
+    TData = LowCostFlightFlightsSearchFlightsSearchFlightsResponse,
+  >(
+    params: LowCostFlightFlightsSearchFlightsSearchFlightsEndpointParams,
+    options?: HttpClientResponseOptions,
+  ): Observable<AngularHttpResponse<TData>>;
+  lowCostFlightFlightsSearchFlightsSearchFlightsEndpoint<
+    TData = LowCostFlightFlightsSearchFlightsSearchFlightsResponse,
+  >(
+    params: LowCostFlightFlightsSearchFlightsSearchFlightsEndpointParams,
+    options?: HttpClientObserveOptions,
+  ): Observable<TData | HttpEvent<TData> | AngularHttpResponse<TData>> {
+    const filteredParams = filterParams({ ...params, ...options?.params }, new Set<string>([]));
 
     if (options?.observe === 'events') {
-      return this.http.get<TData>(
-      `/api/flights/search`,{
-    ...(options as Omit<NonNullable<typeof options>, 'observe'>),
+      return this.http.get<TData>(`/api/flights/search`, {
+        ...(options as Omit<NonNullable<typeof options>, 'observe'>),
         observe: 'events',
-        params: filteredParams,}
-    );
+        params: filteredParams,
+      });
     }
 
     if (options?.observe === 'response') {
-      return this.http.get<TData>(
-      `/api/flights/search`,{
-    ...(options as Omit<NonNullable<typeof options>, 'observe'>),
+      return this.http.get<TData>(`/api/flights/search`, {
+        ...(options as Omit<NonNullable<typeof options>, 'observe'>),
         observe: 'response',
-        params: filteredParams,}
-    );
+        params: filteredParams,
+      });
     }
 
-    return this.http.get<TData>(
-      `/api/flights/search`,{
-    ...(options as Omit<NonNullable<typeof options>, 'observe'>),
-        observe: 'body',
-        params: filteredParams,}
-    );
+    return this.http.get<TData>(`/api/flights/search`, {
+      ...(options as Omit<NonNullable<typeof options>, 'observe'>),
+      observe: 'body',
+      params: filteredParams,
+    });
   }
 
-/**
- * Restituisce l'elenco delle offerte salvate, con filtri opzionali per aeroporto e prezzo massimo
- * @summary Recupera tutte le offerte volo dal database
- */
- lowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpoint<TData = LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsResponse>(params?: LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpointParams, options?: HttpClientBodyOptions): Observable<TData>;
- lowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpoint<TData = LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsResponse>(params?: LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpointParams, options?: HttpClientEventOptions): Observable<HttpEvent<TData>>;
- lowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpoint<TData = LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsResponse>(params?: LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpointParams, options?: HttpClientResponseOptions): Observable<AngularHttpResponse<TData>>;
-  lowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpoint<TData = LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsResponse>(
-    params?: LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpointParams, options?: HttpClientObserveOptions): Observable<TData | HttpEvent<TData> | AngularHttpResponse<TData>> {
-    const filteredParams = filterParams({...params, ...options?.params}, new Set<string>([]));
+  /**
+   * Restituisce l'elenco delle offerte salvate, con filtri opzionali per aeroporto e prezzo massimo
+   * @summary Recupera tutte le offerte volo dal database
+   */
+  lowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpoint<
+    TData = LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsResponse,
+  >(
+    params?: LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpointParams,
+    options?: HttpClientBodyOptions,
+  ): Observable<TData>;
+  lowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpoint<
+    TData = LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsResponse,
+  >(
+    params?: LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpointParams,
+    options?: HttpClientEventOptions,
+  ): Observable<HttpEvent<TData>>;
+  lowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpoint<
+    TData = LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsResponse,
+  >(
+    params?: LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpointParams,
+    options?: HttpClientResponseOptions,
+  ): Observable<AngularHttpResponse<TData>>;
+  lowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpoint<
+    TData = LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsResponse,
+  >(
+    params?: LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpointParams,
+    options?: HttpClientObserveOptions,
+  ): Observable<TData | HttpEvent<TData> | AngularHttpResponse<TData>> {
+    const filteredParams = filterParams({ ...params, ...options?.params }, new Set<string>([]));
 
     if (options?.observe === 'events') {
-      return this.http.get<TData>(
-      `/api/flight-deals`,{
-    ...(options as Omit<NonNullable<typeof options>, 'observe'>),
+      return this.http.get<TData>(`/api/flight-deals`, {
+        ...(options as Omit<NonNullable<typeof options>, 'observe'>),
         observe: 'events',
-        params: filteredParams,}
-    );
+        params: filteredParams,
+      });
     }
 
     if (options?.observe === 'response') {
-      return this.http.get<TData>(
-      `/api/flight-deals`,{
-    ...(options as Omit<NonNullable<typeof options>, 'observe'>),
+      return this.http.get<TData>(`/api/flight-deals`, {
+        ...(options as Omit<NonNullable<typeof options>, 'observe'>),
         observe: 'response',
-        params: filteredParams,}
-    );
+        params: filteredParams,
+      });
     }
 
-    return this.http.get<TData>(
-      `/api/flight-deals`,{
-    ...(options as Omit<NonNullable<typeof options>, 'observe'>),
-        observe: 'body',
-        params: filteredParams,}
-    );
+    return this.http.get<TData>(`/api/flight-deals`, {
+      ...(options as Omit<NonNullable<typeof options>, 'observe'>),
+      observe: 'body',
+      params: filteredParams,
+    });
   }
 
-/**
- * Inserisce una nuova offerta volo con tutti i dettagli nella tabella FlightDeals
- * @summary Crea una nuova offerta volo nel database
- */
- lowCostFlightFlightsCreateFlightDealCreateFlightDealEndpoint<TData = LowCostFlightFlightsCreateFlightDealCreateFlightDealResponse>(lowCostFlightFlightsCreateFlightDealCreateFlightDealRequest: LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest, options?: HttpClientBodyOptions): Observable<TData>;
- lowCostFlightFlightsCreateFlightDealCreateFlightDealEndpoint<TData = LowCostFlightFlightsCreateFlightDealCreateFlightDealResponse>(lowCostFlightFlightsCreateFlightDealCreateFlightDealRequest: LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest, options?: HttpClientEventOptions): Observable<HttpEvent<TData>>;
- lowCostFlightFlightsCreateFlightDealCreateFlightDealEndpoint<TData = LowCostFlightFlightsCreateFlightDealCreateFlightDealResponse>(lowCostFlightFlightsCreateFlightDealCreateFlightDealRequest: LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest, options?: HttpClientResponseOptions): Observable<AngularHttpResponse<TData>>;
-  lowCostFlightFlightsCreateFlightDealCreateFlightDealEndpoint<TData = LowCostFlightFlightsCreateFlightDealCreateFlightDealResponse>(
-    lowCostFlightFlightsCreateFlightDealCreateFlightDealRequest: LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest, options?: HttpClientObserveOptions): Observable<TData | HttpEvent<TData> | AngularHttpResponse<TData>> {
+  /**
+   * Inserisce una nuova offerta volo con tutti i dettagli nella tabella FlightDeals
+   * @summary Crea una nuova offerta volo nel database
+   */
+  lowCostFlightFlightsCreateFlightDealCreateFlightDealEndpoint<
+    TData = LowCostFlightFlightsCreateFlightDealCreateFlightDealResponse,
+  >(
+    lowCostFlightFlightsCreateFlightDealCreateFlightDealRequest: LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest,
+    options?: HttpClientBodyOptions,
+  ): Observable<TData>;
+  lowCostFlightFlightsCreateFlightDealCreateFlightDealEndpoint<
+    TData = LowCostFlightFlightsCreateFlightDealCreateFlightDealResponse,
+  >(
+    lowCostFlightFlightsCreateFlightDealCreateFlightDealRequest: LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest,
+    options?: HttpClientEventOptions,
+  ): Observable<HttpEvent<TData>>;
+  lowCostFlightFlightsCreateFlightDealCreateFlightDealEndpoint<
+    TData = LowCostFlightFlightsCreateFlightDealCreateFlightDealResponse,
+  >(
+    lowCostFlightFlightsCreateFlightDealCreateFlightDealRequest: LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest,
+    options?: HttpClientResponseOptions,
+  ): Observable<AngularHttpResponse<TData>>;
+  lowCostFlightFlightsCreateFlightDealCreateFlightDealEndpoint<
+    TData = LowCostFlightFlightsCreateFlightDealCreateFlightDealResponse,
+  >(
+    lowCostFlightFlightsCreateFlightDealCreateFlightDealRequest: LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest,
+    options?: HttpClientObserveOptions,
+  ): Observable<TData | HttpEvent<TData> | AngularHttpResponse<TData>> {
     if (options?.observe === 'events') {
       return this.http.post<TData>(
-      `/api/flight-deals`,
-      lowCostFlightFlightsCreateFlightDealCreateFlightDealRequest,{
-        ...(options as Omit<NonNullable<typeof options>, 'observe'>),
-        observe: 'events',
-      }
-    );
+        `/api/flight-deals`,
+        lowCostFlightFlightsCreateFlightDealCreateFlightDealRequest,
+        {
+          ...(options as Omit<NonNullable<typeof options>, 'observe'>),
+          observe: 'events',
+        },
+      );
     }
 
     if (options?.observe === 'response') {
       return this.http.post<TData>(
-      `/api/flight-deals`,
-      lowCostFlightFlightsCreateFlightDealCreateFlightDealRequest,{
-        ...(options as Omit<NonNullable<typeof options>, 'observe'>),
-        observe: 'response',
-      }
-    );
+        `/api/flight-deals`,
+        lowCostFlightFlightsCreateFlightDealCreateFlightDealRequest,
+        {
+          ...(options as Omit<NonNullable<typeof options>, 'observe'>),
+          observe: 'response',
+        },
+      );
     }
 
     return this.http.post<TData>(
       `/api/flight-deals`,
-      lowCostFlightFlightsCreateFlightDealCreateFlightDealRequest,{
+      lowCostFlightFlightsCreateFlightDealCreateFlightDealRequest,
+      {
         ...(options as Omit<NonNullable<typeof options>, 'observe'>),
         observe: 'body',
-      }
+      },
     );
   }
-
-};
-
+}
