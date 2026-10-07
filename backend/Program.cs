@@ -43,6 +43,7 @@ Audit.Core.Configuration.Setup()
                 audit.AuditData = entry.ToJson();
             })
         )
+        .IgnoreMatchedProperties(true)
     );
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -54,9 +55,8 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.InstanceName = "LowCostFlight_";
 });
 
-// FastEndpoints Authentication & Security Configuration
 var jwtSigningKey = builder.Configuration["Jwt:SigningKey"] 
-    ?? "SkyDealRadar_Secret_Key_For_Authentication_2026_Minimum_32_Chars_Long!";
+    ??  throw new InvalidOperationException("La configurazione 'Jwt:SigningKey' è obbligatoria e non è stata trovata.");
 
 builder.Services.AddAuthenticationJwtBearer(s => s.SigningKey = jwtSigningKey);
 builder.Services.AddAuthorization();
