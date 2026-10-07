@@ -15,6 +15,6 @@ public class FlightDeal
     public string Airline { get; set; } = string.Empty;
     public string FlightLink { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
-    public int Stops { get; set; }
+    public int Stops { get; set; } 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
