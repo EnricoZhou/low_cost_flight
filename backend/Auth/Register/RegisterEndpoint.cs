@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using low_cost_flight.Auth.Common;
 using low_cost_flight.Data;
 using low_cost_flight.Entities;
+using low_cost_flight.Common;
 
 namespace low_cost_flight.Auth.Register;
 
@@ -48,7 +49,7 @@ public class RegisterEndpoint : Endpoint<RegisterRequest, AuthResponse>
             Email = emailNormalized,
             PasswordHash = passwordHash,
             FullName = req.FullName.Trim(),
-            Role = "User",
+            Role = AppRoles.User,
             CreatedAt = DateTime.UtcNow,
             LastLoginAt = DateTime.UtcNow
         };

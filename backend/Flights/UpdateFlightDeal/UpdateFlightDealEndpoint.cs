@@ -1,4 +1,5 @@
 using FastEndpoints;
+using low_cost_flight.Common;
 using low_cost_flight.Data;
 
 namespace low_cost_flight.Flights.UpdateFlightDeal;
@@ -15,7 +16,7 @@ public class UpdateFlightDealEndpoint : Endpoint<UpdateFlightDealRequest, Update
     public override void Configure()
     {
         Put("/api/flight-deals/{Id}");
-        AllowAnonymous();
+        Roles(AppRoles.Admin);
         Summary(s =>
         {
             s.Summary = "Aggiorna un'offerta volo esistente";

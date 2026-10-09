@@ -1,6 +1,7 @@
 using FastEndpoints;
 using low_cost_flight.Data;
 using low_cost_flight.Entities;
+using low_cost_flight.Common;
 
 namespace low_cost_flight.Flights.CreateFlightDeal;
 
@@ -16,7 +17,7 @@ public class CreateFlightDealEndpoint : Endpoint<CreateFlightDealRequest, Create
     public override void Configure()
     {
         Post("/api/flight-deals");
-        AllowAnonymous();
+        Roles(AppRoles.Admin);
         Summary(s =>
         {
             s.Summary = "Crea una nuova offerta volo nel database";

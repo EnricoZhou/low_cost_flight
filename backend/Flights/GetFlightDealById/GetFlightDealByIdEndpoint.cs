@@ -1,6 +1,7 @@
 using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
 using low_cost_flight.Data;
+using low_cost_flight.Common;
 
 namespace low_cost_flight.Flights.GetFlightDealById;
 
@@ -16,7 +17,7 @@ public class GetFlightDealByIdEndpoint : Endpoint<GetFlightDealByIdRequest, GetF
     public override void Configure()
     {
         Get("/api/flight-deals/{Id}");
-        AllowAnonymous();
+        Roles(AppRoles.Admin);
         Summary(s =>
         {
             s.Summary = "Recupera una singola offerta volo tramite ID";
