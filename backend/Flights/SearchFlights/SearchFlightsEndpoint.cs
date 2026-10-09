@@ -62,6 +62,17 @@ public class SearchFlightsEndpoint : Endpoint<SearchFlightsRequest, SearchFlight
             ["stops"] = req.Stops?.ToString(),
         };
 
+        // Se l'utente specifica solo la data di andata, impostiamo type=2 (One-Way / Solo andata)
+        // altrimenti SerpApi richiede obbligatoriamente return_date per i voli round-trip (type=1).
+        if (req.OutboundDate.HasValue && !req.ReturnDate.HasValue)
+        {
+            queryParams["type"] = "2";
+        }
+        else if (req.OutboundDate.HasValue && req.ReturnDate.HasValue)
+        {
+            queryParams["type"] = "1";
+        }
+
         var query = string.Join("&", queryParams
             .Where(kv => !string.IsNullOrEmpty(kv.Value))
             .Select(kv => $"{Uri.EscapeDataString(kv.Key)}={Uri.EscapeDataString(kv.Value!)}"));
