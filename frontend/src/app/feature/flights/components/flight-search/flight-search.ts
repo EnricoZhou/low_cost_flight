@@ -3,11 +3,30 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SkyDealRadarAPIService } from '../../../../core/api/endpoints.service';
 import { LowCostFlightFlightsSearchFlightsFlightDealItem } from '../../../../core/api/models';
+import {
+  LucideCalendar,
+  LucidePlane,
+  LucideMapPin,
+  LucideArrowLeftRight,
+  LucideX,
+  LucideSearch,
+  LucideExternalLink,
+} from '@lucide/angular';
 
 @Component({
   selector: 'app-flight-search',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    LucideCalendar,
+    LucidePlane,
+    LucideMapPin,
+    LucideArrowLeftRight,
+    LucideX,
+    LucideSearch,
+    LucideExternalLink,
+  ],
   templateUrl: './flight-search.html',
 })
 export class FlightSearchComponent {
