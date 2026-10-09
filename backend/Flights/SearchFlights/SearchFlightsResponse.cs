@@ -18,4 +18,6 @@ public record FlightDealItem
     public string FlightLink { get; init; } = string.Empty;
     public string Description { get; init; } = string.Empty;
     public int Stops { get; init; }
+    public string? OutboundDate { get; init; }
+    public string? ReturnDate { get; init; }    
 }

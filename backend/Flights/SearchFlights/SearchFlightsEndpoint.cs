@@ -100,7 +100,8 @@ public class SearchFlightsEndpoint : Endpoint<SearchFlightsRequest, SearchFlight
                     FlightLink = item?["flight_link"]?.ToString() ?? string.Empty,
                     Description = item?["description"]?.ToString() ?? string.Empty,
                     Stops = item?["stops"]?.GetValue<int>() ?? 0,
-
+                    OutboundDate = item?["outbound_date"]?.ToString(),
+                    ReturnDate = item?["return_date"]?.ToString(),
                 });
             }
         }
