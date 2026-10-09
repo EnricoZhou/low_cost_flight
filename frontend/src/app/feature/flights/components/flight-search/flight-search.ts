@@ -42,9 +42,9 @@ export class FlightSearchComponent {
     { code: 'JFK', label: 'New York', icon: '🗽' },
   ];
 
-  // Voli filtrati e ordinati reattivamente
+  // Voli filtrati e ordinati reattivamente (solo voli con sconto reale)
   readonly visibleFlights = computed(() => {
-    let list = [...this.flights()];
+    let list = this.flights().filter((f) => (f.discountPercentage ?? 0) > 0);
 
     // Filtro rapido tab
     if (this.activeTab() === 'under50') {

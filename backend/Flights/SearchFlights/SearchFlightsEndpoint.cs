@@ -96,14 +96,29 @@ public class SearchFlightsEndpoint : Endpoint<SearchFlightsRequest, SearchFlight
                 var price = item?["price"]?.GetValue<decimal>() ?? 0;
                 if (req.MaxPrice.HasValue && price > req.MaxPrice.Value) continue;
 
+                var discountPercentage = item?["discount_percentage"]?.GetValue<int>() ?? 0;
+                var averagePrice = item?["average_price"]?.GetValue<decimal>() ?? 0;
+
+                // Se SerpApi non ha esplicitato la percentuale ma il prezzo medio storico è superiore, calcoliamola
+                if (discountPercentage <= 0 && averagePrice > price && averagePrice > 0)
+                {
+                    discountPercentage = (int)Math.Round((1m - (price / averagePrice)) * 100m);
+                }
+
+                // Includiamo SOLO ed esclusivamente i voli con sconto reale
+                if (discountPercentage <= 0)
+                {
+                    continue;
+                }
+
                 deals.Add(new FlightDealItem
                 {
                     DepartureAirport = item?["departure_airport_code"]?.ToString() ?? req.DepartureId,
                     ArrivalAirport = item?["arrival_airport_code"]?.ToString() ?? req.ArrivalId ?? string.Empty,
                     NameCity = item?["name"]?.ToString() ?? string.Empty,
                     Country = item?["country"]?.ToString() ?? string.Empty,
-                    AveragePrice = item?["average_price"]?.GetValue<decimal>() ?? 0,
-                    DiscountPercentage = item?["discount_percentage"]?.GetValue<int>() ?? 0,
+                    AveragePrice = averagePrice,
+                    DiscountPercentage = discountPercentage,
                     Price = price,
                     Currency = item?["currency"]?.ToString() ?? string.Empty,
                     DurationInMinutes = item?["flight_duration"]?.GetValue<int>() ?? 0,
