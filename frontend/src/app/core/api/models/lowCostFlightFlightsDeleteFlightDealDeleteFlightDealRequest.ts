@@ -5,6 +5,4 @@
  * OpenAPI spec version: v1
  */
 
-export interface LowCostFlightFlightsDeleteFlightDealDeleteFlightDealRequest {
-  [key: string]: unknown;
-}
+export interface LowCostFlightFlightsDeleteFlightDealDeleteFlightDealRequest { [key: string]: unknown }

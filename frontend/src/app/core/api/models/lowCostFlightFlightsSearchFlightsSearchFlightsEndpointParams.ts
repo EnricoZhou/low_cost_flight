@@ -6,37 +6,37 @@
  */
 
 export type LowCostFlightFlightsSearchFlightsSearchFlightsEndpointParams = {
-  departureId: string;
-  /**
-   * @nullable
-   */
-  arrivalId?: string | null;
-  /**
-   * @nullable
-   */
-  currency?: string | null;
-  /**
-   * @nullable
-   */
-  outboundDate?: string | null;
-  /**
-   * @nullable
-   */
-  returnDate?: string | null;
-  /**
-   * @nullable
-   */
-  maxPrice?: number | null;
-  /**
-   * @nullable
-   */
-  hl?: string | null;
-  /**
-   * @nullable
-   */
-  gl?: string | null;
-  /**
-   * @nullable
-   */
-  stops?: number | null;
+departureId: string;
+/**
+ * @nullable
+ */
+arrivalId?: string | null;
+/**
+ * @nullable
+ */
+currency?: string | null;
+/**
+ * @nullable
+ */
+outboundDate?: string | null;
+/**
+ * @nullable
+ */
+returnDate?: string | null;
+/**
+ * @nullable
+ */
+maxPrice?: number | null;
+/**
+ * @nullable
+ */
+hl?: string | null;
+/**
+ * @nullable
+ */
+gl?: string | null;
+/**
+ * @nullable
+ */
+stops?: number | null;
 };

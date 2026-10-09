@@ -12,6 +12,7 @@
 /* Theme Tokens - Default Dark Mode (mikes.cv Obsidian Palette) */
 :root,
 html.dark {
+  color-scheme: dark;
   --bg-canvas: #121211;
   --bg-surface: #181716;
   --bg-card: #1e1d1c;
@@ -38,6 +39,7 @@ html.dark {
 
 /* Theme Tokens - Light Mode (mikes.cv Warm Editorial Ivory Palette) */
 html.light {
+  color-scheme: light;
   --bg-canvas: #f7f5f0;
   --bg-surface: #ffffff;
   --bg-card: #ffffff;
@@ -114,3 +116,16 @@ body {
   opacity: 0.4;
   filter: blur(4px);
 }
+
+/* Date input calendar picker indicator */
+input[type='date']::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.6;
+  filter: invert(var(--calendar-invert, 0));
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+input[type='date']::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+

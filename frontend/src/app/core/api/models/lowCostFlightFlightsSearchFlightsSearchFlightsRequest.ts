@@ -5,6 +5,4 @@
  * OpenAPI spec version: v1
  */
 
-export interface LowCostFlightFlightsSearchFlightsSearchFlightsRequest {
-  [key: string]: unknown;
-}
+export interface LowCostFlightFlightsSearchFlightsSearchFlightsRequest { [key: string]: unknown }

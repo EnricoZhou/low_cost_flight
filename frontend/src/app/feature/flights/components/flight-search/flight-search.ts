@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LowCostFlightService } from '../../../../core/api/endpoints.service';
+import { SkyDealRadarAPIService } from '../../../../core/api/endpoints.service';
 import { LowCostFlightFlightsSearchFlightsFlightDealItem } from '../../../../core/api/models';
 
 @Component({
@@ -11,7 +11,7 @@ import { LowCostFlightFlightsSearchFlightsFlightDealItem } from '../../../../cor
   templateUrl: './flight-search.html',
 })
 export class FlightSearchComponent {
-  private readonly flightService = inject(LowCostFlightService);
+  private readonly flightService = inject(SkyDealRadarAPIService);
 
   // Filtri di ricerca API
   departureId = signal('MXP');
@@ -84,6 +84,8 @@ export class FlightSearchComponent {
 
   resetFilters(): void {
     this.arrivalId.set('');
+    this.outboundDate.set('');
+    this.returnDate.set('');
     this.maxPrice.set(null);
     this.stops.set(0);
     this.activeTab.set('all');

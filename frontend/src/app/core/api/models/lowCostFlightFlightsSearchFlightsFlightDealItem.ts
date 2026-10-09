@@ -19,4 +19,8 @@ export interface LowCostFlightFlightsSearchFlightsFlightDealItem {
   flightLink?: string;
   description?: string;
   stops?: number;
+  /** @nullable */
+  outboundDate?: string | null;
+  /** @nullable */
+  returnDate?: string | null;
 }

@@ -6,16 +6,16 @@
  */
 
 export type LowCostFlightFlightsGetAllFlightDealsGetAllFlightDealsEndpointParams = {
-  /**
-   * @nullable
-   */
-  departureAirport?: string | null;
-  /**
-   * @nullable
-   */
-  arrivalAirport?: string | null;
-  /**
-   * @nullable
-   */
-  maxPrice?: number | null;
+/**
+ * @nullable
+ */
+departureAirport?: string | null;
+/**
+ * @nullable
+ */
+arrivalAirport?: string | null;
+/**
+ * @nullable
+ */
+maxPrice?: number | null;
 };

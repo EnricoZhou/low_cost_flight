@@ -7,15 +7,15 @@
 
 export interface LowCostFlightAuthRegisterRegisterRequest {
   /**
-   * @minLength 1
-   * @pattern ^[^@]+@[^@]+$
-   */
+     * @minLength 1
+     * @pattern ^[^@]+@[^@]+$
+     */
   email: string;
   /** @minLength 6 */
   password: string;
   /**
-   * @minLength 0
-   * @maxLength 150
-   */
+     * @minLength 0
+     * @maxLength 150
+     */
   fullName: string;
 }

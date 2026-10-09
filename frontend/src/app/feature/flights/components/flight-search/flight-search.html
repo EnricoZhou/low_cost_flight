@@ -2,19 +2,13 @@
   <!-- Hero Section (mikes.cv editorial minimalist headline) -->
   <header class="mb-12 sm:mb-16">
     <div class="flex items-center gap-2 mb-4">
-      <span
-        class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-blue)] shadow-[0_0_8px_var(--beacon-blue)]"
-      ></span>
-      <span
-        class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] tracking-widest uppercase"
-      >
+      <span class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-blue)] shadow-[0_0_8px_var(--beacon-blue)]"></span>
+      <span class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] tracking-widest uppercase">
         FLIGHT INTELLIGENCE // REALTIME RADAR
       </span>
     </div>
 
-    <h1
-      class="text-4xl sm:text-6xl font-bold tracking-tight text-[var(--ink-primary)] leading-[1.1] mb-5 max-w-3xl"
-    >
+    <h1 class="text-4xl sm:text-6xl font-bold tracking-tight text-[var(--ink-primary)] leading-[1.1] mb-5 max-w-3xl">
       Trova tariffe aeree minime con
       <span class="text-[var(--beacon-blue)] inline-block">calcolo di sconto reale.</span>
     </h1>
@@ -26,8 +20,7 @@
 
     <!-- Key Metrics Ribbon (Minimalist Hairline Grid) -->
     <div
-      class="grid grid-cols-2 sm:grid-cols-3 gap-px bg-[var(--keyline)] border border-[var(--keyline)] rounded-xl overflow-hidden max-w-2xl shadow-sm"
-    >
+      class="grid grid-cols-2 sm:grid-cols-3 gap-px bg-[var(--keyline)] border border-[var(--keyline)] rounded-xl overflow-hidden max-w-2xl shadow-sm">
       <div class="p-4 bg-[var(--bg-surface)]">
         <div class="font-editorial-mono text-[10px] text-[var(--ink-faint)] uppercase mb-1">
           REDIS LATENCY
@@ -53,16 +46,12 @@
   </header>
 
   <!-- Search Terminal Card (#search-terminal) -->
-  <section
-    id="search-terminal"
-    class="bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-2xl p-6 sm:p-8 shadow-xl mb-14 transition-all duration-300 hover:border-[var(--keyline-hover)]"
-  >
+  <section id="search-terminal"
+    class="bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-2xl p-6 sm:p-8 shadow-xl mb-14 transition-all duration-300 hover:border-[var(--keyline-hover)]">
     <div class="flex items-center justify-between pb-5 mb-6 border-b border-[var(--keyline)]">
       <div class="flex items-center gap-2">
         <span class="w-2 h-2 rounded-full bg-[var(--beacon-emerald)]"></span>
-        <span
-          class="font-editorial-mono text-xs text-[var(--ink-primary)] font-semibold tracking-wider"
-        >
+        <span class="font-editorial-mono text-xs text-[var(--ink-primary)] font-semibold tracking-wider">
           TERMINAL // QUERY PARAMS
         </span>
       </div>
@@ -72,104 +61,127 @@
     </div>
 
     <form (ngSubmit)="onSearch()" class="space-y-6">
+      <!-- Prima riga: Tratta e Aeroporti -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 items-end">
-        <!-- Departure IATA (4 cols on lg) -->
-        <div class="space-y-1.5 lg:col-span-4">
-          <label
-            for="departure"
-            class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between"
-          >
+        <!-- Departure IATA (5 cols on lg) -->
+        <div class="space-y-1.5 lg:col-span-5">
+          <label for="departure"
+            class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between">
             <span>ORIGINE [IATA]</span>
             <span class="text-[var(--beacon-blue)] text-[10px]">REQUIRED</span>
           </label>
           <div class="relative">
-            <div
-              class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
-              aria-hidden="true"
-            >
-              <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-              >
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
+              aria-hidden="true">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path
-                  d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"
-                ></path>
+                  d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z">
+                </path>
               </svg>
             </div>
-            <input
-              id="departure"
-              type="text"
-              [ngModel]="departureId()"
-              (ngModelChange)="departureId.set($event)"
-              name="departureId"
-              placeholder="ES. MXP, FCO, BGY"
-              maxlength="3"
-              required
-              class="w-full min-h-[46px] pl-10 pr-3.5 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-sm font-mono tracking-wider focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all uppercase"
-            />
+            <input id="departure" type="text" [ngModel]="departureId()" (ngModelChange)="departureId.set($event)"
+              name="departureId" placeholder="ES. MXP, FCO, BGY" maxlength="3" required
+              class="w-full min-h-[46px] pl-10 pr-3.5 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-sm font-mono tracking-wider focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all uppercase" />
           </div>
         </div>
 
         <!-- Swap Airports (1 col on lg) -->
-        <div class="hidden lg:flex lg:col-span-1 justify-center pb-1">
-          <button
-            type="button"
-            (click)="swapAirports()"
-            [disabled]="!arrivalId()"
+        <div class="hidden lg:flex lg:col-span-1 justify-center pb-0.5">
+          <button type="button" (click)="swapAirports()" [disabled]="!arrivalId()"
             aria-label="Inverti aeroporto di partenza e arrivo"
-            class="min-h-[42px] min-w-[42px] rounded-xl bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)] disabled:opacity-25 disabled:cursor-not-allowed text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] flex items-center justify-center transition-all cursor-pointer border border-[var(--keyline)]"
-          >
-            <svg
-              class="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
+            class="min-h-[44px] min-w-[44px] rounded-xl bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)] disabled:opacity-25 disabled:cursor-not-allowed text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] flex items-center justify-center transition-all cursor-pointer border border-[var(--keyline)]">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+              aria-hidden="true">
               <path d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
             </svg>
           </button>
         </div>
 
-        <!-- Destination IATA (4 cols on lg) -->
-        <div class="space-y-1.5 lg:col-span-4">
-          <label
-            for="arrival"
-            class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between"
-          >
+        <!-- Destination IATA (6 cols on lg) -->
+        <div class="space-y-1.5 lg:col-span-6">
+          <label for="arrival"
+            class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between">
             <span>DESTINAZIONE [IATA]</span>
             <span class="text-[var(--ink-faint)] text-[10px]">ANY DESTINATION</span>
           </label>
           <div class="relative">
-            <div
-              class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
-              aria-hidden="true"
-            >
-              <svg
-                class="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-              >
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
+              aria-hidden="true">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
                 <circle cx="12" cy="10" r="3"></circle>
               </svg>
             </div>
-            <input
-              id="arrival"
-              type="text"
-              [ngModel]="arrivalId()"
-              (ngModelChange)="arrivalId.set($event)"
-              name="arrivalId"
-              placeholder="ES. BCN, JFK (OPPURE VUOTO)"
-              maxlength="3"
-              class="w-full min-h-[46px] pl-10 pr-3.5 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-sm font-mono tracking-wider focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all uppercase"
-            />
+            <input id="arrival" type="text" [ngModel]="arrivalId()" (ngModelChange)="arrivalId.set($event)"
+              name="arrivalId" placeholder="ES. BCN, JFK (OPPURE VUOTO)" maxlength="3"
+              class="w-full min-h-[46px] pl-10 pr-3.5 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-sm font-mono tracking-wider focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all uppercase" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Seconda riga: Date, Scali e Budget -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 items-end">
+        <!-- Data Andata (4 cols on lg) -->
+        <div class="space-y-1.5 lg:col-span-4">
+          <label for="outboundDate"
+            class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between">
+            <span>DATA ANDATA [OUTBOUND]</span>
+            <span class="text-[var(--ink-faint)] text-[10px]">FACOLTATIVO</span>
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
+              aria-hidden="true">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+                <line x1="16" x2="16" y1="2" y2="6"></line>
+                <line x1="8" x2="8" y1="2" y2="6"></line>
+                <line x1="3" x2="21" y1="10" y2="10"></line>
+              </svg>
+            </div>
+            <input id="outboundDate" type="date" [ngModel]="outboundDate()" (ngModelChange)="outboundDate.set($event)"
+              name="outboundDate"
+              class="w-full min-h-[46px] pl-10 pr-9 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all cursor-pointer" />
+            @if (outboundDate()) {
+            <button type="button" (click)="outboundDate.set('')" aria-label="Cancella data andata"
+              class="absolute inset-y-0 right-8 flex items-center text-[var(--ink-faint)] hover:text-[var(--ink-primary)] transition-colors cursor-pointer">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            }
+          </div>
+        </div>
+
+        <!-- Data Ritorno (4 cols on lg) -->
+        <div class="space-y-1.5 lg:col-span-4">
+          <label for="returnDate"
+            class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between">
+            <span>DATA RITORNO [RETURN]</span>
+            <span class="text-[var(--ink-faint)] text-[10px]">FACOLTATIVO</span>
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
+              aria-hidden="true">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+                <line x1="16" x2="16" y1="2" y2="6"></line>
+                <line x1="8" x2="8" y1="2" y2="6"></line>
+                <line x1="3" x2="21" y1="10" y2="10"></line>
+              </svg>
+            </div>
+            <input id="returnDate" type="date" [min]="outboundDate()" [ngModel]="returnDate()"
+              (ngModelChange)="returnDate.set($event)" name="returnDate"
+              class="w-full min-h-[46px] pl-10 pr-9 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all cursor-pointer" />
+            @if (returnDate()) {
+            <button type="button" (click)="returnDate.set('')" aria-label="Cancella data ritorno"
+              class="absolute inset-y-0 right-8 flex items-center text-[var(--ink-faint)] hover:text-[var(--ink-primary)] transition-colors cursor-pointer">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+            }
           </div>
         </div>
 
@@ -179,15 +191,10 @@
             SCALI [MAX]
           </label>
           <div class="relative">
-            <select
-              id="stops"
-              [ngModel]="stops()"
-              (ngModelChange)="stops.set(+$event)"
-              name="stops"
-              class="w-full min-h-[46px] px-3 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] transition-all cursor-pointer"
-            >
+            <select id="stops" [ngModel]="stops()" (ngModelChange)="stops.set(+$event)" name="stops"
+              class="w-full min-h-[46px] px-3 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] transition-all cursor-pointer">
               <option [value]="0" class="bg-[var(--bg-surface)] text-[var(--ink-primary)]">
-                TUTTI GLI SCALI
+                TUTTI
               </option>
               <option [value]="1" class="bg-[var(--bg-surface)] text-[var(--ink-primary)]">
                 SOLO DIRETTI
@@ -199,78 +206,54 @@
           </div>
         </div>
 
-        <!-- Budget Max (1 col on lg) -->
-        <div class="space-y-1.5 lg:col-span-1">
+        <!-- Budget Max (2 cols on lg) -->
+        <div class="space-y-1.5 lg:col-span-2">
           <label for="maxPrice" class="font-editorial-mono text-[11px] text-[var(--ink-secondary)]">
             BUDGET (€)
           </label>
-          <input
-            id="maxPrice"
-            type="number"
-            [ngModel]="maxPrice()"
-            (ngModelChange)="maxPrice.set($event ? +$event : null)"
-            name="maxPrice"
-            placeholder="MAX"
-            min="1"
-            class="w-full min-h-[46px] px-3 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] transition-all"
-          />
+          <input id="maxPrice" type="number" [ngModel]="maxPrice()"
+            (ngModelChange)="maxPrice.set($event ? +$event : null)" name="maxPrice" placeholder="MAX PREZZO" min="1"
+            class="w-full min-h-[46px] px-3 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] transition-all" />
         </div>
       </div>
 
       <!-- Quick Destination Badges (mikes.cv inspired mono pill selection) -->
       <div class="flex items-center flex-wrap gap-2 pt-4 border-t border-[var(--keyline)]">
-        <span class="font-editorial-mono text-[11px] text-[var(--ink-faint)] mr-2"
-          >RADAR PRESETS:</span
-        >
+        <span class="font-editorial-mono text-[11px] text-[var(--ink-faint)] mr-2">RADAR PRESETS:</span>
         <div class="flex flex-wrap gap-1.5">
           @for (chip of popularAirports; track chip.code) {
-            <button
-              type="button"
-              class="inline-flex items-center gap-1.5 min-h-[34px] px-3 py-1 rounded-full text-xs font-editorial-mono border transition-all cursor-pointer active:scale-95"
-              [class]="
+          <button type="button"
+            class="inline-flex items-center gap-1.5 min-h-[34px] px-3 py-1 rounded-full text-xs font-editorial-mono border transition-all cursor-pointer active:scale-95"
+            [class]="
                 arrivalId() === chip.code
                   ? 'bg-[var(--beacon-blue)] text-white border-[var(--beacon-blue)] shadow-[0_0_12px_rgba(44,111,255,0.4)]'
                   : 'bg-[var(--bg-input)] border-[var(--keyline)] text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] hover:border-[var(--keyline-hover)]'
-              "
-              (click)="selectPopularAirport(chip.code)"
-            >
-              <span>{{ chip.label }}</span>
-              @if (chip.code) {
-                <span class="text-[10px] opacity-60">[{{ chip.code }}]</span>
-              }
-            </button>
+              " (click)="selectPopularAirport(chip.code)">
+            <span>{{ chip.label }}</span>
+            @if (chip.code) {
+            <span class="text-[10px] opacity-60">[{{ chip.code }}]</span>
+            }
+          </button>
           }
         </div>
       </div>
 
       <!-- Action Button -->
       <div class="pt-2">
-        <button
-          type="submit"
-          [disabled]="isLoading()"
-          class="w-full min-h-[50px] py-3.5 px-6 rounded-xl font-editorial-mono text-xs font-bold tracking-widest text-[var(--btn-primary-text)] bg-[var(--btn-primary-bg)] hover:opacity-90 shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.99]"
-        >
+        <button type="submit" [disabled]="isLoading()"
+          class="w-full min-h-[50px] py-3.5 px-6 rounded-xl font-editorial-mono text-xs font-bold tracking-widest text-[var(--btn-primary-text)] bg-[var(--btn-primary-bg)] hover:opacity-90 shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.99]">
           @if (isLoading()) {
-            <span
-              class="inline-block w-4 h-4 border-2 border-[var(--btn-primary-text)] border-t-transparent rounded-full animate-spin"
-              aria-hidden="true"
-            ></span>
-            <span>SCANNING RADAR & QUERYING REDIS CACHE...</span>
+          <span
+            class="inline-block w-4 h-4 border-2 border-[var(--btn-primary-text)] border-t-transparent rounded-full animate-spin"
+            aria-hidden="true"></span>
+          <span>SCANNING RADAR & QUERYING REDIS CACHE...</span>
           } @else {
-            <svg
-              class="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <span>ESEGUI RICERCA TARIFFA OTTIMALE [SEARCH]</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+            stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span>ESEGUI RICERCA TARIFFA OTTIMALE [SEARCH]</span>
           }
         </button>
       </div>
@@ -279,339 +262,265 @@
 
   <!-- Error Alert -->
   @if (errorMessage()) {
-    <div
-      class="flex items-center gap-3 p-4 bg-red-950/20 border border-red-800/40 rounded-xl text-red-400 text-xs font-editorial-mono mb-10 shadow-sm"
-      role="alert"
-    >
-      <svg
-        class="w-4 h-4 text-red-400 shrink-0"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <circle cx="12" cy="12" r="10"></circle>
-        <line x1="12" y1="8" x2="12" y2="12"></line>
-        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-      </svg>
-      <p>{{ errorMessage() }}</p>
-    </div>
+  <div
+    class="flex items-center gap-3 p-4 bg-red-950/20 border border-red-800/40 rounded-xl text-red-400 text-xs font-editorial-mono mb-10 shadow-sm"
+    role="alert">
+    <svg class="w-4 h-4 text-red-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+      aria-hidden="true">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="8" x2="12" y2="12"></line>
+      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+    <p>{{ errorMessage() }}</p>
+  </div>
   }
 
   <!-- Results Section -->
   <section aria-labelledby="results-title">
     @if (isLoading()) {
+    <div class="text-center py-24 px-4 bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-2xl">
       <div
-        class="text-center py-24 px-4 bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-2xl"
-      >
-        <div
-          class="w-10 h-10 mx-auto mb-4 border-2 border-[var(--keyline)] border-t-[var(--beacon-blue)] rounded-full animate-spin"
-          aria-hidden="true"
-        ></div>
-        <h2 class="font-editorial-mono text-xs text-[var(--ink-primary)] mb-1">
-          INTERROGAZIONE MOTORE IN CORSO
-        </h2>
-        <p class="font-editorial-mono text-[10px] text-[var(--ink-faint)]">
-          Sincronizzazione offerte Google Flights & layer cache Redis...
-        </p>
-      </div>
+        class="w-10 h-10 mx-auto mb-4 border-2 border-[var(--keyline)] border-t-[var(--beacon-blue)] rounded-full animate-spin"
+        aria-hidden="true"></div>
+      <h2 class="font-editorial-mono text-xs text-[var(--ink-primary)] mb-1">
+        INTERROGAZIONE MOTORE IN CORSO
+      </h2>
+      <p class="font-editorial-mono text-[10px] text-[var(--ink-faint)]">
+        Sincronizzazione offerte Google Flights & layer cache Redis...
+      </p>
+    </div>
     } @else if (hasSearched()) {
-      <!-- Results Controls Bar (mikes.cv editorial tabs & count) -->
-      <div
-        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-[var(--keyline)]"
-      >
-        <div class="flex items-center gap-3">
-          <h2
-            id="results-title"
-            class="font-editorial-mono text-xs text-[var(--ink-primary)] font-bold"
-          >
-            FOUND OFFERS //
-          </h2>
-          <span
-            class="px-2.5 py-0.5 rounded-full font-editorial-mono text-[11px] font-bold bg-[var(--pill-bg)] text-[var(--ink-primary)] border border-[var(--keyline)]"
-          >
-            {{ visibleFlights().length }}
-          </span>
-          @if (flights().length > 0) {
-            <span
-              class="inline-flex items-center gap-1.5 font-editorial-mono text-[10px] px-2.5 py-0.5 rounded-full bg-[var(--bg-surface)] text-[var(--beacon-emerald)] border border-[var(--beacon-emerald)]/30"
-            >
-              <span class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-emerald)]"></span>
-              <span>IN MEMORY</span>
-            </span>
-          }
-        </div>
+    <!-- Results Controls Bar (mikes.cv editorial tabs & count) -->
+    <div
+      class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-[var(--keyline)]">
+      <div class="flex items-center gap-3">
+        <h2 id="results-title" class="font-editorial-mono text-xs text-[var(--ink-primary)] font-bold">
+          FOUND OFFERS //
+        </h2>
+        <span
+          class="px-2.5 py-0.5 rounded-full font-editorial-mono text-[11px] font-bold bg-[var(--pill-bg)] text-[var(--ink-primary)] border border-[var(--keyline)]">
+          {{ visibleFlights().length }}
+        </span>
+        @if (flights().length > 0) {
+        <span
+          class="inline-flex items-center gap-1.5 font-editorial-mono text-[10px] px-2.5 py-0.5 rounded-full bg-[var(--bg-surface)] text-[var(--beacon-emerald)] border border-[var(--beacon-emerald)]/30">
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-emerald)]"></span>
+          <span>IN MEMORY</span>
+        </span>
+        }
+      </div>
 
-        <!-- Filter Segmented Tabs & Sort Selector -->
-        <div class="flex flex-wrap items-center gap-2.5">
-          <!-- Segmented Filter Pill -->
-          <div
-            class="inline-flex p-1 rounded-xl bg-[var(--bg-input)] border border-[var(--keyline)] font-editorial-mono text-[11px]"
-            role="tablist"
-          >
-            <button
-              type="button"
-              role="tab"
-              [attr.aria-selected]="activeTab() === 'all'"
-              (click)="setFilterTab('all')"
-              class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer"
-              [class]="
+      <!-- Filter Segmented Tabs & Sort Selector -->
+      <div class="flex flex-wrap items-center gap-2.5">
+        <!-- Segmented Filter Pill -->
+        <div
+          class="inline-flex p-1 rounded-xl bg-[var(--bg-input)] border border-[var(--keyline)] font-editorial-mono text-[11px]"
+          role="tablist">
+          <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'all'" (click)="setFilterTab('all')"
+            class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer" [class]="
                 activeTab() === 'all'
                   ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
                   : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
-              "
-            >
-              TUTTE
-            </button>
-            <button
-              type="button"
-              role="tab"
-              [attr.aria-selected]="activeTab() === 'under50'"
-              (click)="setFilterTab('under50')"
-              class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer"
-              [class]="
+              ">
+            TUTTE
+          </button>
+          <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'under50'"
+            (click)="setFilterTab('under50')" class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer"
+            [class]="
                 activeTab() === 'under50'
                   ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
                   : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
-              "
-            >
-              &le; 50€
-            </button>
-            <button
-              type="button"
-              role="tab"
-              [attr.aria-selected]="activeTab() === 'direct'"
-              (click)="setFilterTab('direct')"
-              class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer"
-              [class]="
+              ">
+            &le; 50€
+          </button>
+          <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'direct'"
+            (click)="setFilterTab('direct')" class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer"
+            [class]="
                 activeTab() === 'direct'
                   ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
                   : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
-              "
-            >
-              DIRETTI
-            </button>
-            <button
-              type="button"
-              role="tab"
-              [attr.aria-selected]="activeTab() === 'topDiscount'"
-              (click)="setFilterTab('topDiscount')"
-              class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer"
-              [class]="
+              ">
+            DIRETTI
+          </button>
+          <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'topDiscount'"
+            (click)="setFilterTab('topDiscount')"
+            class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer" [class]="
                 activeTab() === 'topDiscount'
                   ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
                   : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
-              "
-            >
-              TOP SCONTO
-            </button>
-          </div>
-
-          <!-- Sort Select -->
-          <div class="relative">
-            <select
-              [ngModel]="sortBy()"
-              (ngModelChange)="setSortBy($event)"
-              aria-label="Ordina i risultati dei voli"
-              class="min-h-[34px] bg-[var(--bg-input)] border border-[var(--keyline)] text-[var(--ink-secondary)] font-editorial-mono text-[11px] py-1 pl-3 pr-7 rounded-xl focus:outline-none focus:border-[var(--beacon-blue)] cursor-pointer"
-            >
-              <option value="price">PREZZO MINIMO</option>
-              <option value="discount">SCONTO % MAGGIORE</option>
-              <option value="duration">VOLO PIÙ BREVE</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- Deals Grid (mikes.cv inspired boarding/timeline cards) -->
-      @if (visibleFlights().length > 0) {
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          @for (flight of visibleFlights(); track $index) {
-            <article
-              class="group bg-[var(--bg-card)] border border-[var(--keyline)] rounded-2xl p-5 hover:border-[var(--keyline-hover)] hover:bg-[var(--bg-card-hover)] transition-all duration-300 flex flex-col justify-between shadow-lg relative overflow-hidden"
-            >
-              <!-- Top line: City & Discount Badge -->
-              <div>
-                <div class="flex items-start justify-between gap-3 mb-4">
-                  <div>
-                    <h3
-                      class="text-lg font-bold text-[var(--ink-primary)] tracking-tight group-hover:text-[var(--beacon-blue)] transition-colors"
-                    >
-                      {{ flight.nameCity || flight.arrivalAirport }}
-                    </h3>
-                    <p class="font-editorial-mono text-[10px] text-[var(--ink-faint)]">
-                      {{ flight.country }}
-                    </p>
-                  </div>
-                  @if ((flight.discountPercentage ?? 0) > 0) {
-                    <span
-                      class="inline-flex items-center px-2 py-0.5 rounded-full font-editorial-mono text-[11px] font-bold bg-[var(--beacon-emerald)]/10 text-[var(--beacon-emerald)] border border-[var(--beacon-emerald)]/30"
-                    >
-                      -{{ flight.discountPercentage }}%
-                    </span>
-                  }
-                </div>
-
-                <!-- Flight Route Visual Strip (Timeline inspired by mikes.cv route track) -->
-                <div
-                  class="bg-[var(--bg-input)] rounded-xl p-3.5 border border-[var(--keyline)] mb-4 relative"
-                >
-                  <div class="flex items-center justify-between">
-                    <!-- Origin -->
-                    <div class="text-left">
-                      <div class="font-editorial-mono text-sm font-bold text-[var(--ink-primary)]">
-                        {{ flight.departureAirport }}
-                      </div>
-                      <div class="font-editorial-mono text-[9px] text-[var(--ink-faint)]">
-                        ORIGIN
-                      </div>
-                    </div>
-
-                    <!-- Visual Route Connector -->
-                    <div class="flex-1 mx-4 flex flex-col items-center">
-                      <div class="w-full flex items-center gap-1.5">
-                        <span
-                          class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-blue)] shadow-[0_0_6px_var(--beacon-blue)]"
-                        ></span>
-                        <div class="flex-1 h-px flight-path-dashed"></div>
-                        <svg
-                          class="w-3.5 h-3.5 text-[var(--beacon-blue)] transform rotate-90 shrink-0"
-                          fill="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"
-                          ></path>
-                        </svg>
-                        <div class="flex-1 h-px flight-path-dashed"></div>
-                        <span
-                          class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-emerald)] shadow-[0_0_6px_var(--beacon-emerald)]"
-                        ></span>
-                      </div>
-                      <span
-                        class="font-editorial-mono text-[9px] font-bold text-[var(--beacon-blue)] mt-1.5"
-                      >
-                        {{ flight.stops === 0 ? 'NON-STOP DIRECT' : flight.stops + ' SCALO' }}
-                      </span>
-                    </div>
-
-                    <!-- Destination -->
-                    <div class="text-right">
-                      <div class="font-editorial-mono text-sm font-bold text-[var(--ink-primary)]">
-                        {{ flight.arrivalAirport }}
-                      </div>
-                      <div class="font-editorial-mono text-[9px] text-[var(--ink-faint)]">DEST</div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Meta Badges in Monospace -->
-                <div
-                  class="flex items-center gap-2 flex-wrap text-xs text-[var(--ink-secondary)] mb-5"
-                >
-                  <span
-                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[var(--bg-input)] border border-[var(--keyline)] font-editorial-mono text-[10px]"
-                  >
-                    <span>AIRLINE:</span>
-                    <span class="text-[var(--ink-primary)]">{{ flight.airline || 'N/D' }}</span>
-                  </span>
-                  <span
-                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[var(--bg-input)] border border-[var(--keyline)] font-editorial-mono text-[10px]"
-                  >
-                    <span>TIME:</span>
-                    <span class="text-[var(--ink-primary)]">{{
-                      formatDuration(flight.durationInMinutes)
-                    }}</span>
-                  </span>
-                </div>
-              </div>
-
-              <!-- Footer with Price & Action -->
-              <div
-                class="flex items-center justify-between pt-3.5 border-t border-[var(--keyline)] mt-auto"
-              >
-                <div>
-                  @if ((flight.averagePrice ?? 0) > (flight.price ?? 0)) {
-                    <span
-                      class="block font-editorial-mono text-[10px] text-[var(--ink-faint)] line-through"
-                    >
-                      AVG {{ flight.averagePrice }} {{ flight.currency }}
-                    </span>
-                  }
-                  <div
-                    class="text-2xl font-bold font-mono text-[var(--ink-primary)] tracking-tight"
-                  >
-                    {{ flight.price }}
-                    <span class="text-xs font-editorial-mono text-[var(--beacon-blue)]">{{
-                      flight.currency
-                    }}</span>
-                  </div>
-                </div>
-
-                @if (flight.flightLink) {
-                  <a
-                    [href]="flight.flightLink"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="min-h-[38px] inline-flex items-center gap-1.5 px-4 py-2 rounded-xl font-editorial-mono text-[11px] font-bold bg-[var(--btn-primary-bg)] hover:opacity-90 text-[var(--btn-primary-text)] transition-all shadow-sm active:scale-95"
-                  >
-                    <span>BOOK</span>
-                    <svg
-                      class="w-3.5 h-3.5"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                      ></path>
-                    </svg>
-                  </a>
-                }
-              </div>
-            </article>
-          }
-        </div>
-      } @else {
-        <!-- Empty State -->
-        <div
-          class="text-center py-16 px-4 bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-2xl"
-        >
-          <div
-            class="w-10 h-10 rounded-full bg-[var(--pill-bg)] flex items-center justify-center mx-auto mb-3 text-[var(--ink-secondary)]"
-          >
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-          </div>
-          <h3 class="font-editorial-mono text-xs font-semibold text-[var(--ink-primary)] mb-1">
-            NESSUN VOLO CORRISPONDE AI CRITERI SELEZIONATI
-          </h3>
-          <p class="font-editorial-mono text-[10px] text-[var(--ink-faint)] max-w-md mx-auto mb-5">
-            I filtri applicati sono troppo restrittivi. Reimposta i parametri per verificare la
-            disponibilità complessiva.
-          </p>
-          <button
-            type="button"
-            (click)="resetFilters()"
-            class="min-h-[38px] px-4 py-2 rounded-xl font-editorial-mono text-[11px] font-bold bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)] text-[var(--ink-primary)] border border-[var(--keyline)] transition-all cursor-pointer"
-          >
-            RESET ALL FILTERS [REIMPOSTA]
+              ">
+            TOP SCONTO
           </button>
         </div>
+
+        <!-- Sort Select -->
+        <div class="relative">
+          <select [ngModel]="sortBy()" (ngModelChange)="setSortBy($event)" aria-label="Ordina i risultati dei voli"
+            class="min-h-[34px] bg-[var(--bg-input)] border border-[var(--keyline)] text-[var(--ink-secondary)] font-editorial-mono text-[11px] py-1 pl-3 pr-7 rounded-xl focus:outline-none focus:border-[var(--beacon-blue)] cursor-pointer">
+            <option value="price">PREZZO MINIMO</option>
+            <option value="discount">SCONTO % MAGGIORE</option>
+            <option value="duration">VOLO PIÙ BREVE</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Deals Grid (mikes.cv inspired boarding/timeline cards) -->
+    @if (visibleFlights().length > 0) {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      @for (flight of visibleFlights(); track $index) {
+      <article
+        class="group bg-[var(--bg-card)] border border-[var(--keyline)] rounded-2xl p-5 hover:border-[var(--keyline-hover)] hover:bg-[var(--bg-card-hover)] transition-all duration-300 flex flex-col justify-between shadow-lg relative overflow-hidden">
+        <!-- Top line: City & Discount Badge -->
+        <div>
+          <div class="flex items-start justify-between gap-3 mb-4">
+            <div>
+              <h3
+                class="text-lg font-bold text-[var(--ink-primary)] tracking-tight group-hover:text-[var(--beacon-blue)] transition-colors">
+                {{ flight.nameCity || flight.arrivalAirport }}
+              </h3>
+              <p class="font-editorial-mono text-[10px] text-[var(--ink-faint)]">
+                {{ flight.country }}
+              </p>
+            </div>
+            @if ((flight.discountPercentage ?? 0) > 0) {
+            <span
+              class="inline-flex items-center px-2 py-0.5 rounded-full font-editorial-mono text-[11px] font-bold bg-[var(--beacon-emerald)]/10 text-[var(--beacon-emerald)] border border-[var(--beacon-emerald)]/30">
+              -{{ flight.discountPercentage }}%
+            </span>
+            }
+          </div>
+
+          <!-- Flight Route Visual Strip (Timeline inspired by mikes.cv route track) -->
+          <div class="bg-[var(--bg-input)] rounded-xl p-3.5 border border-[var(--keyline)] mb-4 relative">
+            <div class="flex items-center justify-between">
+              <!-- Origin -->
+              <div class="text-left">
+                <div class="font-editorial-mono text-sm font-bold text-[var(--ink-primary)]">
+                  {{ flight.departureAirport }}
+                </div>
+                <div class="font-editorial-mono text-[9px] text-[var(--ink-faint)]">
+                  ORIGIN
+                </div>
+              </div>
+
+              <!-- Visual Route Connector -->
+              <div class="flex-1 mx-4 flex flex-col items-center">
+                <div class="w-full flex items-center gap-1.5">
+                  <span
+                    class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-blue)] shadow-[0_0_6px_var(--beacon-blue)]"></span>
+                  <div class="flex-1 h-px flight-path-dashed"></div>
+                  <svg class="w-3.5 h-3.5 text-[var(--beacon-blue)] transform rotate-90 shrink-0" fill="currentColor"
+                    viewBox="0 0 24 24">
+                    <path
+                      d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z">
+                    </path>
+                  </svg>
+                  <div class="flex-1 h-px flight-path-dashed"></div>
+                  <span
+                    class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-emerald)] shadow-[0_0_6px_var(--beacon-emerald)]"></span>
+                </div>
+                <span class="font-editorial-mono text-[9px] font-bold text-[var(--beacon-blue)] mt-1.5">
+                  {{ flight.stops === 0 ? 'NON-STOP DIRECT' : flight.stops + ' SCALO' }}
+                </span>
+              </div>
+
+              <!-- Destination -->
+              <div class="text-right">
+                <div class="font-editorial-mono text-sm font-bold text-[var(--ink-primary)]">
+                  {{ flight.arrivalAirport }}
+                </div>
+                <div class="font-editorial-mono text-[9px] text-[var(--ink-faint)]">DEST</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Meta Badges in Monospace -->
+          <div class="flex items-center gap-2 flex-wrap text-xs text-[var(--ink-secondary)] mb-5">
+            <span
+              class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[var(--bg-input)] border border-[var(--keyline)] font-editorial-mono text-[10px]">
+              <span>AIRLINE:</span>
+              <span class="text-[var(--ink-primary)]">{{ flight.airline || 'N/D' }}</span>
+            </span>
+            <span
+              class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[var(--bg-input)] border border-[var(--keyline)] font-editorial-mono text-[10px]">
+              <span>TIME:</span>
+              <span class="text-[var(--ink-primary)]">{{
+                formatDuration(flight.durationInMinutes)
+                }}</span>
+            </span>
+            @if (flight.outboundDate) {
+            <span
+              class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[var(--bg-input)] border border-[var(--keyline)] font-editorial-mono text-[10px]">
+              <svg class="w-3 h-3 text-[var(--beacon-blue)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <span>DATE:</span>
+              <span class="text-[var(--ink-primary)] font-mono">
+                {{ flight.outboundDate }}@if (flight.returnDate) { → {{ flight.returnDate }}}
+              </span>
+            </span>
+            }
+          </div>
+        </div>
+
+        <!-- Footer with Price & Action -->
+        <div class="flex items-center justify-between pt-3.5 border-t border-[var(--keyline)] mt-auto">
+          <div>
+            @if ((flight.averagePrice ?? 0) > (flight.price ?? 0)) {
+            <span class="block font-editorial-mono text-[10px] text-[var(--ink-faint)] line-through">
+              AVG {{ flight.averagePrice }} {{ flight.currency }}
+            </span>
+            }
+            <div class="text-2xl font-bold font-mono text-[var(--ink-primary)] tracking-tight">
+              {{ flight.price }}
+              <span class="text-xs font-editorial-mono text-[var(--beacon-blue)]">{{
+                flight.currency
+                }}</span>
+            </div>
+          </div>
+
+          @if (flight.flightLink) {
+          <a [href]="flight.flightLink" target="_blank" rel="noopener noreferrer"
+            class="min-h-[38px] inline-flex items-center gap-1.5 px-4 py-2 rounded-xl font-editorial-mono text-[11px] font-bold bg-[var(--btn-primary-bg)] hover:opacity-90 text-[var(--btn-primary-text)] transition-all shadow-sm active:scale-95">
+            <span>BOOK</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+              aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+          </a>
+          }
+        </div>
+      </article>
       }
+    </div>
+    } @else {
+    <!-- Empty State -->
+    <div class="text-center py-16 px-4 bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-2xl">
+      <div
+        class="w-10 h-10 rounded-full bg-[var(--pill-bg)] flex items-center justify-center mx-auto mb-3 text-[var(--ink-secondary)]">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </div>
+      <h3 class="font-editorial-mono text-xs font-semibold text-[var(--ink-primary)] mb-1">
+        NESSUN VOLO CORRISPONDE AI CRITERI SELEZIONATI
+      </h3>
+      <p class="font-editorial-mono text-[10px] text-[var(--ink-faint)] max-w-md mx-auto mb-5">
+        I filtri applicati sono troppo restrittivi. Reimposta i parametri per verificare la
+        disponibilità complessiva.
+      </p>
+      <button type="button" (click)="resetFilters()"
+        class="min-h-[38px] px-4 py-2 rounded-xl font-editorial-mono text-[11px] font-bold bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)] text-[var(--ink-primary)] border border-[var(--keyline)] transition-all cursor-pointer">
+        RESET ALL FILTERS [REIMPOSTA]
+      </button>
+    </div>
+    }
     }
   </section>
 
@@ -620,9 +529,7 @@
     <div class="mb-10">
       <div class="flex items-center gap-2 mb-2">
         <span class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-emerald)]"></span>
-        <span
-          class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] tracking-widest uppercase"
-        >
+        <span class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] tracking-widest uppercase">
           INDEX // TECHNICAL ARCHITECTURE
         </span>
       </div>
@@ -633,8 +540,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div
-        class="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm"
-      >
+        class="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm">
         <div class="font-editorial-mono text-xs font-bold text-[var(--beacon-blue)] mb-3">
           01 // REDIS MEMORY LAYER
         </div>
@@ -648,8 +554,7 @@
       </div>
 
       <div
-        class="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm"
-      >
+        class="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm">
         <div class="font-editorial-mono text-xs font-bold text-[var(--beacon-emerald)] mb-3">
           02 // INTELLIGENCE ENGINE
         </div>
@@ -663,8 +568,7 @@
       </div>
 
       <div
-        class="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm"
-      >
+        class="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm">
         <div class="font-editorial-mono text-xs font-bold text-amber-500 mb-3">
           03 // CONTRACT INTEGRITY
         </div>
