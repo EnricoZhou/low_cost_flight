@@ -3,15 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SkyDealRadarAPIService } from '../../../../core/api/endpoints.service';
 import { LowCostFlightFlightsSearchFlightsFlightDealItem } from '../../../../core/api/models';
-import {
-  LucideCalendar,
-  LucidePlane,
-  LucideMapPin,
-  LucideArrowLeftRight,
-  LucideX,
-  LucideSearch,
-  LucideExternalLink,
-} from '@lucide/angular';
+import { FlightCardComponent } from './card/flight-card.component';
+import { FlightHeroComponent } from './hero/flight-hero.component';
+import { FlightFormComponent } from './form/flight-form.component';
+import { FlightSearchParams, DEFAULT_SEARCH_PARAMS } from '../../models';
+
 
 @Component({
   selector: 'app-flight-search',
@@ -19,27 +15,17 @@ import {
   imports: [
     CommonModule,
     FormsModule,
-    LucideCalendar,
-    LucidePlane,
-    LucideMapPin,
-    LucideArrowLeftRight,
-    LucideX,
-    LucideSearch,
-    LucideExternalLink,
+    FlightCardComponent,
+    FlightHeroComponent,
+    FlightFormComponent,
   ],
   templateUrl: './flight-search.html',
 })
 export class FlightSearchComponent {
   private readonly flightService = inject(SkyDealRadarAPIService);
 
-  // Filtri di ricerca API
-  departureId = signal('MXP');
-  arrivalId = signal('');
-  currency = signal('EUR');
-  outboundDate = signal('');
-  returnDate = signal('');
-  maxPrice = signal<number | null>(null);
-  stops = signal<number>(0);
+  // Filtri di ricerca API (stato centralizzato nel componente genitore)
+  filters = signal<FlightSearchParams>({ ...DEFAULT_SEARCH_PARAMS });
 
   // Filtri e ordinamento client-side (Shadcn style tab)
   activeTab = signal<'all' | 'under50' | 'direct' | 'topDiscount'>('all');
@@ -51,19 +37,10 @@ export class FlightSearchComponent {
   errorMessage = signal<string | null>(null);
   hasSearched = signal(false);
 
-  // Destinazioni rapide d'ispirazione
-  readonly popularAirports = [
-    { code: '', label: 'Tutte le mete', icon: '🌍' },
-    { code: 'BCN', label: 'Barcellona', icon: '🏖️' },
-    { code: 'LHR', label: 'Londra', icon: '🎡' },
-    { code: 'CDG', label: 'Parigi', icon: '🗼' },
-    { code: 'AMS', label: 'Amsterdam', icon: '🚲' },
-    { code: 'JFK', label: 'New York', icon: '🗽' },
-  ];
-
   // Voli filtrati e ordinati reattivamente (solo voli con sconto reale o destinazione specifica)
   readonly visibleFlights = computed(() => {
-    let list = this.flights().filter((f) => (f.discountPercentage ?? 0) > 0 || !!this.arrivalId());
+    const hasArrival = !!this.filters().arrivalId?.trim();
+    let list = this.flights().filter((f) => (f.discountPercentage ?? 0) > 0 || hasArrival);
 
     // Filtro rapido tab
     if (this.activeTab() === 'under50') {
@@ -86,27 +63,8 @@ export class FlightSearchComponent {
     return list;
   });
 
-  selectPopularAirport(code: string): void {
-    this.arrivalId.set(code);
-    this.onSearch();
-  }
-
-  swapAirports(): void {
-    const currentDep = this.departureId();
-    const currentArr = this.arrivalId();
-    if (currentArr) {
-      this.departureId.set(currentArr);
-      this.arrivalId.set(currentDep);
-      this.onSearch();
-    }
-  }
-
   resetFilters(): void {
-    this.arrivalId.set('');
-    this.outboundDate.set('');
-    this.returnDate.set('');
-    this.maxPrice.set(null);
-    this.stops.set(0);
+    this.filters.set({ ...DEFAULT_SEARCH_PARAMS });
     this.activeTab.set('all');
     this.sortBy.set('price');
     this.onSearch();
@@ -121,7 +79,8 @@ export class FlightSearchComponent {
   }
 
   onSearch(): void {
-    if (!this.departureId().trim()) {
+    const params = this.filters();
+    if (!params.departureId?.trim()) {
       this.errorMessage.set('Inserisci almeno un aeroporto di partenza (es. MXP, FCO).');
       return;
     }
@@ -132,13 +91,13 @@ export class FlightSearchComponent {
 
     this.flightService
       .lowCostFlightFlightsSearchFlightsSearchFlightsEndpoint({
-        departureId: this.departureId().trim().toUpperCase(),
-        arrivalId: this.arrivalId().trim() ? this.arrivalId().trim().toUpperCase() : null,
-        currency: this.currency(),
-        outboundDate: this.outboundDate() || null,
-        returnDate: this.returnDate() || null,
-        maxPrice: this.maxPrice(),
-        stops: this.stops() !== 0 ? this.stops() : null,
+        departureId: params.departureId.trim().toUpperCase(),
+        arrivalId: params.arrivalId?.trim() ? params.arrivalId.trim().toUpperCase() : null,
+        currency: params.currency,
+        outboundDate: params.outboundDate || null,
+        returnDate: params.returnDate || null,
+        maxPrice: params.maxPrice,
+        stops: params.stops !== 0 ? params.stops : null,
       })
       .subscribe({
         next: (response) => {
@@ -155,11 +114,6 @@ export class FlightSearchComponent {
         },
       });
   }
-
-  formatDuration(minutes: number | undefined): string {
-    if (!minutes) return 'N/D';
-    const h = Math.floor(minutes / 60);
-    const m = minutes % 60;
-    return h > 0 ? `${h}h ${m.toString().padStart(2, '0')}m` : `${m}m`;
-  }
 }
+
+
