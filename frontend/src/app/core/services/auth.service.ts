@@ -22,6 +22,8 @@ export class AuthService {
   readonly isAuthModalOpen = signal<boolean>(false);
   readonly isLoading = signal<boolean>(false);
   readonly errorMessage = signal<string | null>(null);
+  readonly isAdmin = computed(() => this.currentUser()?.role === 'Admin');
+  readonly isUser = computed(() => this.currentUser()?.role === 'User');
 
   // Computed state
   readonly isAuthenticated = computed(() => !!this.token() && !!this.currentUser());

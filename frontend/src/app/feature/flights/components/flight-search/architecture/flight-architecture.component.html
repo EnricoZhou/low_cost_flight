@@ -1,0 +1,62 @@
+<section class="mt-24 pt-12 border-t border-[var(--keyline)]">
+  <div class="mb-10">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-emerald)]"></span>
+      <span
+        class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] tracking-widest uppercase"
+      >
+        INDEX // TECHNICAL ARCHITECTURE
+      </span>
+    </div>
+    <h2 class="text-2xl font-bold text-[var(--ink-primary)] tracking-tight">
+      Architettura ingegnerizzata per prestazioni e affidabilità.
+    </h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div
+      class="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm"
+    >
+      <div class="font-editorial-mono text-xs font-bold text-[var(--beacon-blue)] mb-3">
+        01 // REDIS MEMORY LAYER
+      </div>
+      <h3 class="text-base font-semibold text-[var(--ink-primary)] mb-2">
+        Cache Distribuita Redis 7
+      </h3>
+      <p class="text-xs text-[var(--ink-secondary)] leading-relaxed">
+        Le chiamate per la medesima rotta vengono cachate in RAM con TTL di 10 minuti, azzerando le
+        latenze e preservando la quota API SerpApi.
+      </p>
+    </div>
+
+    <div
+      class="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm"
+    >
+      <div class="font-editorial-mono text-xs font-bold text-[var(--beacon-emerald)] mb-3">
+        02 // INTELLIGENCE ENGINE
+      </div>
+      <h3 class="text-base font-semibold text-[var(--ink-primary)] mb-2">
+        Algoritmo di Sconto Google
+      </h3>
+      <p class="text-xs text-[var(--ink-secondary)] leading-relaxed">
+        Integrazione diretta con il motore Google Flights Deals via SerpApi: rilevamento automatico
+        delle anomalie di prezzo rispetto allo storico medio.
+      </p>
+    </div>
+
+    <div
+      class="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm"
+    >
+      <div class="font-editorial-mono text-xs font-bold text-amber-500 mb-3">
+        03 // CONTRACT INTEGRITY
+      </div>
+      <h3 class="text-base font-semibold text-[var(--ink-primary)] mb-2">
+        Type-Safe con Orval & .NET 10
+      </h3>
+      <p class="text-xs text-[var(--ink-secondary)] leading-relaxed">
+        Endpoint C# FastEndpoints sincronizzati con OpenAPI Swagger e generatore Orval, garantendo
+        tipizzazione statica assoluta nel frontend.
+      </p>
+    </div>
+  </div>
+</section>

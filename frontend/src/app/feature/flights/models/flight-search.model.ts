@@ -1,3 +1,5 @@
+import { LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest } from '../../../core/api/models';
+
 export interface FlightSearchParams {
   departureId: string;
   arrivalId: string | null;
@@ -16,4 +18,19 @@ export const DEFAULT_SEARCH_PARAMS: FlightSearchParams = {
   returnDate: '',
   maxPrice: null,
   stops: 0,
+};
+
+export const DEFAULT_DEAL: LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest = {
+  departureAirport: '',
+  arrivalAirport: '',
+  nameCity: '',
+  country: '',
+  price: 0,
+  averagePrice: 0,
+  currency: 'EUR',
+  airline: '',
+  durationInMinutes: 0,
+  stops: 0,
+  flightLink: '',
+  description: '',
 };

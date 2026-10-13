@@ -2,203 +2,259 @@
   <!-- Hero Section (mikes.cv editorial minimalist headline) -->
   <app-flight-hero />
 
-  <!-- Search Terminal Card (#search-terminal) -->
-  <app-flight-form [(filters)]="filters" [isLoading]="isLoading()" (search)="onSearch()" />
-
-  <!-- Error Alert -->
-  @if (errorMessage()) {
-  <div
-    class="flex items-center gap-3 p-4 bg-red-950/20 border border-red-800/40 rounded-xl text-red-400 text-xs font-editorial-mono mb-10 shadow-sm"
-    role="alert">
-    <svg class="w-4 h-4 text-red-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-      aria-hidden="true">
-      <circle cx="12" cy="12" r="10"></circle>
-      <line x1="12" y1="8" x2="12" y2="12"></line>
-      <line x1="12" y1="16" x2="12.01" y2="16"></line>
-    </svg>
-    <p>{{ errorMessage() }}</p>
-  </div>
-  }
-
-  <!-- Results Section -->
-  <section aria-labelledby="results-title">
-    @if (isLoading()) {
-    <div class="text-center py-24 px-4 bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-2xl">
-      <div
-        class="w-10 h-10 mx-auto mb-4 border-2 border-[var(--keyline)] border-t-[var(--beacon-blue)] rounded-full animate-spin"
-        aria-hidden="true"></div>
-      <h2 class="font-editorial-mono text-xs text-[var(--ink-primary)] mb-1">
-        INTERROGAZIONE MOTORE IN CORSO
-      </h2>
-      <p class="font-editorial-mono text-[10px] text-[var(--ink-faint)]">
-        Sincronizzazione offerte Google Flights & layer cache Redis...
-      </p>
-    </div>
-    } @else if (hasSearched()) {
-    <!-- Results Controls Bar (mikes.cv editorial tabs & count) -->
+  <!-- Pulsante Admin -->
+  @if (authService.isAdmin()) {
     <div
-      class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-[var(--keyline)]">
-      <div class="flex items-center gap-3">
-        <h2 id="results-title" class="font-editorial-mono text-xs text-[var(--ink-primary)] font-bold">
-          FOUND OFFERS //
-        </h2>
-        <span
-          class="px-2.5 py-0.5 rounded-full font-editorial-mono text-[11px] font-bold bg-[var(--pill-bg)] text-[var(--ink-primary)] border border-[var(--keyline)]">
-          {{ visibleFlights().length }}
-        </span>
-        @if (flights().length > 0) {
-        <span
-          class="inline-flex items-center gap-1.5 font-editorial-mono text-[10px] px-2.5 py-0.5 rounded-full bg-[var(--bg-surface)] text-[var(--beacon-emerald)] border border-[var(--beacon-emerald)]/30">
-          <span class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-emerald)]"></span>
-          <span>IN MEMORY</span>
-        </span>
-        }
+      class="flex items-center justify-between p-4 mb-6 bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-xl"
+    >
+      <div class="font-editorial-mono text-sm text-[var(--ink-primary)]">
+        Pannello Amministratore
       </div>
-
-      <!-- Filter Segmented Tabs & Sort Selector -->
-      <div class="flex flex-wrap items-center gap-2.5">
-        <!-- Segmented Filter Pill -->
-        <div
-          class="inline-flex p-1 rounded-xl bg-[var(--bg-input)] border border-[var(--keyline)] font-editorial-mono text-[11px]"
-          role="tablist">
-          <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'all'" (click)="setFilterTab('all')"
-            class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer" [class]="
-                activeTab() === 'all'
-                  ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
-                  : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
-              ">
-            TUTTE
-          </button>
-          <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'under50'"
-            (click)="setFilterTab('under50')" class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer"
-            [class]="
-                activeTab() === 'under50'
-                  ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
-                  : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
-              ">
-            &le; 50€
-          </button>
-          <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'direct'"
-            (click)="setFilterTab('direct')" class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer"
-            [class]="
-                activeTab() === 'direct'
-                  ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
-                  : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
-              ">
-            DIRETTI
-          </button>
-          <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'topDiscount'"
-            (click)="setFilterTab('topDiscount')"
-            class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer" [class]="
-                activeTab() === 'topDiscount'
-                  ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
-                  : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
-              ">
-            TOP SCONTO
-          </button>
-        </div>
-
-        <!-- Sort Select -->
-        <div class="relative">
-          <select [ngModel]="sortBy()" (ngModelChange)="setSortBy($event)" aria-label="Ordina i risultati dei voli"
-            class="min-h-[34px] bg-[var(--bg-input)] border border-[var(--keyline)] text-[var(--ink-secondary)] font-editorial-mono text-[11px] py-1 pl-3 pr-7 rounded-xl focus:outline-none focus:border-[var(--beacon-blue)] cursor-pointer">
-            <option value="price">PREZZO MINIMO</option>
-            <option value="discount">SCONTO % MAGGIORE</option>
-            <option value="duration">VOLO PIÙ BREVE</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <!-- Deals Grid (mikes.cv inspired boarding/timeline cards) -->
-    @if (visibleFlights().length > 0) {
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      @for (flight of visibleFlights(); track $index) {
-      <app-flight-card [flight]="flight" />
-      }
-    </div>
-    } @else {
-    <!-- Empty State -->
-    <div class="text-center py-16 px-4 bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-2xl">
-      <div
-        class="w-10 h-10 rounded-full bg-[var(--pill-bg)] flex items-center justify-center mx-auto mb-3 text-[var(--ink-secondary)]">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </div>
-      <h3 class="font-editorial-mono text-xs font-semibold text-[var(--ink-primary)] mb-1">
-        NESSUN VOLO CORRISPONDE AI CRITERI SELEZIONATI
-      </h3>
-      <p class="font-editorial-mono text-[10px] text-[var(--ink-faint)] max-w-md mx-auto mb-5">
-        I filtri applicati sono troppo restrittivi. Reimposta i parametri per verificare la
-        disponibilità complessiva.
-      </p>
-      <button type="button" (click)="resetFilters()"
-        class="min-h-[38px] px-4 py-2 rounded-xl font-editorial-mono text-[11px] font-bold bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)] text-[var(--ink-primary)] border border-[var(--keyline)] transition-all cursor-pointer">
-        RESET ALL FILTERS [REIMPOSTA]
+      <button
+        type="button"
+        (click)="openCreateDealModal()"
+        class="px-4 py-2 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-text)] font-bold rounded-lg hover:opacity-90 transition cursor-pointer"
+      >
+        + Add Flight
       </button>
     </div>
-    }
-    }
-  </section>
 
+    <!-- Pop-up Modale per Inserire il Volo -->
+    @if (isAddDealModalOpen()) {
+      <app-flight-create-modal
+        [isSubmittingDeal]="isSubmittingDeal()"
+        (closeCreateDealModal)="closeCreateDealModal()"
+        (createFlightDeal)="createFlightDeal($event)"
+      />
+    }
+
+    <!-- Error Alert -->
+    @if (errorMessage()) {
+      <div
+        class="flex items-center gap-3 p-4 bg-red-950/20 border border-red-800/40 rounded-xl text-red-400 text-xs font-editorial-mono mb-10 shadow-sm"
+        role="alert"
+      >
+        <svg
+          class="w-4 h-4 text-red-400 shrink-0"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <p>{{ errorMessage() }}</p>
+      </div>
+    }
+  }
+
+  @if (authService.isUser()) {
+    <!-- Search Terminal Card (#search-terminal) -->
+    <app-flight-form [(filters)]="filters" [isLoading]="isLoading()" (search)="onSearch()" />
+
+    <!-- Error Alert -->
+    @if (errorMessage()) {
+      <div
+        class="flex items-center gap-3 p-4 bg-red-950/20 border border-red-800/40 rounded-xl text-red-400 text-xs font-editorial-mono mb-10 shadow-sm"
+        role="alert"
+      >
+        <svg
+          class="w-4 h-4 text-red-400 shrink-0"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <p>{{ errorMessage() }}</p>
+      </div>
+    }
+
+    <!-- Results Section -->
+    <section aria-labelledby="results-title">
+      @if (isLoading()) {
+        <div
+          class="text-center py-24 px-4 bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-2xl"
+        >
+          <div
+            class="w-10 h-10 mx-auto mb-4 border-2 border-[var(--keyline)] border-t-[var(--beacon-blue)] rounded-full animate-spin"
+            aria-hidden="true"
+          ></div>
+          <h2 class="font-editorial-mono text-xs text-[var(--ink-primary)] mb-1">
+            INTERROGAZIONE MOTORE IN CORSO
+          </h2>
+          <p class="font-editorial-mono text-[10px] text-[var(--ink-faint)]">
+            Sincronizzazione offerte Google Flights & layer cache Redis...
+          </p>
+        </div>
+      } @else if (hasSearched()) {
+        <!-- Results Controls Bar (mikes.cv editorial tabs & count) -->
+        <div
+          class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-[var(--keyline)]"
+        >
+          <div class="flex items-center gap-3">
+            <h2
+              id="results-title"
+              class="font-editorial-mono text-xs text-[var(--ink-primary)] font-bold"
+            >
+              FOUND OFFERS //
+            </h2>
+            <span
+              class="px-2.5 py-0.5 rounded-full font-editorial-mono text-[11px] font-bold bg-[var(--pill-bg)] text-[var(--ink-primary)] border border-[var(--keyline)]"
+            >
+              {{ visibleFlights().length }}
+            </span>
+            @if (flights().length > 0) {
+              <span
+                class="inline-flex items-center gap-1.5 font-editorial-mono text-[10px] px-2.5 py-0.5 rounded-full bg-[var(--bg-surface)] text-[var(--beacon-emerald)] border border-[var(--beacon-emerald)]/30"
+              >
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-emerald)]"></span>
+                <span>IN MEMORY</span>
+              </span>
+            }
+          </div>
+
+          <!-- Filter Segmented Tabs & Sort Selector -->
+          <div class="flex flex-wrap items-center gap-2.5">
+            <!-- Segmented Filter Pill -->
+            <div
+              class="inline-flex p-1 rounded-xl bg-[var(--bg-input)] border border-[var(--keyline)] font-editorial-mono text-[11px]"
+              role="tablist"
+            >
+              <button
+                type="button"
+                role="tab"
+                [attr.aria-selected]="activeTab() === 'all'"
+                (click)="setFilterTab('all')"
+                class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5"
+                [class]="
+                  activeTab() === 'all'
+                    ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
+                    : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
+                "
+              >
+                <span>TUTTE</span>
+                <span class="text-[10px] opacity-75 font-mono">({{ tabCounts().all }})</span>
+              </button>
+              <button
+                type="button"
+                role="tab"
+                [attr.aria-selected]="activeTab() === 'under50'"
+                (click)="setFilterTab('under50')"
+                class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5"
+                [class]="
+                  activeTab() === 'under50'
+                    ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
+                    : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
+                "
+              >
+                <span>&le; 50€</span>
+                <span class="text-[10px] opacity-75 font-mono">({{ tabCounts().under50 }})</span>
+              </button>
+              <button
+                type="button"
+                role="tab"
+                [attr.aria-selected]="activeTab() === 'direct'"
+                (click)="setFilterTab('direct')"
+                class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5"
+                [class]="
+                  activeTab() === 'direct'
+                    ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
+                    : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
+                "
+              >
+                <span>DIRETTI</span>
+                <span class="text-[10px] opacity-75 font-mono">({{ tabCounts().direct }})</span>
+              </button>
+              <button
+                type="button"
+                role="tab"
+                [attr.aria-selected]="activeTab() === 'topDiscount'"
+                (click)="setFilterTab('topDiscount')"
+                class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5"
+                [class]="
+                  activeTab() === 'topDiscount'
+                    ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
+                    : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
+                "
+              >
+                <span>TOP SCONTO</span>
+                <span class="text-[10px] opacity-75 font-mono"
+                  >({{ tabCounts().topDiscount }})</span
+                >
+              </button>
+            </div>
+
+            <!-- Sort Select -->
+            <div class="relative">
+              <select
+                [ngModel]="sortBy()"
+                (ngModelChange)="setSortBy($event)"
+                aria-label="Ordina i risultati dei voli"
+                class="min-h-[34px] bg-[var(--bg-input)] border border-[var(--keyline)] text-[var(--ink-secondary)] font-editorial-mono text-[11px] py-1 pl-3 pr-7 rounded-xl focus:outline-none focus:border-[var(--beacon-blue)] cursor-pointer"
+              >
+                <option value="price">PREZZO MINIMO</option>
+                <option value="discount">SCONTO % MAGGIORE</option>
+                <option value="duration">VOLO PIÙ BREVE</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deals Grid (mikes.cv inspired boarding/timeline cards) -->
+        @if (visibleFlights().length > 0) {
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            @for (flight of visibleFlights(); track $index) {
+              <app-flight-card [flight]="flight" />
+            }
+          </div>
+        } @else {
+          <!-- Empty State -->
+          <div
+            class="text-center py-16 px-4 bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-2xl"
+          >
+            <div
+              class="w-10 h-10 rounded-full bg-[var(--pill-bg)] flex items-center justify-center mx-auto mb-3 text-[var(--ink-secondary)]"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+            <h3 class="font-editorial-mono text-xs font-semibold text-[var(--ink-primary)] mb-1">
+              NESSUN VOLO CORRISPONDE AI CRITERI SELEZIONATI
+            </h3>
+            <p
+              class="font-editorial-mono text-[10px] text-[var(--ink-faint)] max-w-md mx-auto mb-5"
+            >
+              I filtri applicati sono troppo restrittivi. Reimposta i parametri per verificare la
+              disponibilità complessiva.
+            </p>
+            <button
+              type="button"
+              (click)="resetFilters()"
+              class="min-h-[38px] px-4 py-2 rounded-xl font-editorial-mono text-[11px] font-bold bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)] text-[var(--ink-primary)] border border-[var(--keyline)] transition-all cursor-pointer"
+            >
+              RESET ALL FILTERS [REIMPOSTA]
+            </button>
+          </div>
+        }
+      }
+    </section>
+  }
   <!-- Technical Value Proposition Section (mikes.cv numbered index blocks) -->
-  <section class="mt-24 pt-12 border-t border-[var(--keyline)]">
-    <div class="mb-10">
-      <div class="flex items-center gap-2 mb-2">
-        <span class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-emerald)]"></span>
-        <span class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] tracking-widest uppercase">
-          INDEX // TECHNICAL ARCHITECTURE
-        </span>
-      </div>
-      <h2 class="text-2xl font-bold text-[var(--ink-primary)] tracking-tight">
-        Architettura ingegnerizzata per prestazioni e affidabilità.
-      </h2>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div
-        class="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm">
-        <div class="font-editorial-mono text-xs font-bold text-[var(--beacon-blue)] mb-3">
-          01 // REDIS MEMORY LAYER
-        </div>
-        <h3 class="text-base font-semibold text-[var(--ink-primary)] mb-2">
-          Cache Distribuita Redis 7
-        </h3>
-        <p class="text-xs text-[var(--ink-secondary)] leading-relaxed">
-          Le chiamate per la medesima rotta vengono cachate in RAM con TTL di 10 minuti, azzerando
-          le latenze e preservando la quota API SerpApi.
-        </p>
-      </div>
-
-      <div
-        class="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm">
-        <div class="font-editorial-mono text-xs font-bold text-[var(--beacon-emerald)] mb-3">
-          02 // INTELLIGENCE ENGINE
-        </div>
-        <h3 class="text-base font-semibold text-[var(--ink-primary)] mb-2">
-          Algoritmo di Sconto Google
-        </h3>
-        <p class="text-xs text-[var(--ink-secondary)] leading-relaxed">
-          Integrazione diretta con il motore Google Flights Deals via SerpApi: rilevamento
-          automatico delle anomalie di prezzo rispetto allo storico medio.
-        </p>
-      </div>
-
-      <div
-        class="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm">
-        <div class="font-editorial-mono text-xs font-bold text-amber-500 mb-3">
-          03 // CONTRACT INTEGRITY
-        </div>
-        <h3 class="text-base font-semibold text-[var(--ink-primary)] mb-2">
-          Type-Safe con Orval & .NET 10
-        </h3>
-        <p class="text-xs text-[var(--ink-secondary)] leading-relaxed">
-          Endpoint C# FastEndpoints sincronizzati con OpenAPI Swagger e generatore Orval, garantendo
-          tipizzazione statica assoluta nel frontend.
-        </p>
-      </div>
-    </div>
-  </section>
+  <app-flight-architecture />
 </div>

@@ -2,12 +2,17 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SkyDealRadarAPIService } from '../../../../core/api/endpoints.service';
-import { LowCostFlightFlightsSearchFlightsFlightDealItem } from '../../../../core/api/models';
+import {
+  LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest,
+  LowCostFlightFlightsSearchFlightsFlightDealItem,
+} from '../../../../core/api/models';
 import { FlightCardComponent } from './card/flight-card.component';
 import { FlightHeroComponent } from './hero/flight-hero.component';
 import { FlightFormComponent } from './form/flight-form.component';
-import { FlightSearchParams, DEFAULT_SEARCH_PARAMS } from '../../models';
-
+import { FlightSearchParams, DEFAULT_SEARCH_PARAMS, DEFAULT_DEAL } from '../../models';
+import { FlightArchitectureComponent } from './architecture/flight-architecture.component';
+import { FlightCreateModalComponent } from './create-flight/flight-create-modal.component';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-flight-search',
@@ -18,11 +23,54 @@ import { FlightSearchParams, DEFAULT_SEARCH_PARAMS } from '../../models';
     FlightCardComponent,
     FlightHeroComponent,
     FlightFormComponent,
+    FlightArchitectureComponent,
+    FlightCreateModalComponent,
   ],
   templateUrl: './flight-search.html',
 })
 export class FlightSearchComponent {
   private readonly flightService = inject(SkyDealRadarAPIService);
+  private readonly authService = inject(AuthService);
+
+  isAddDealModalOpen = signal(false);
+  isSubmittingDeal = signal(false);
+
+  newDeal: LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest = {
+    ...DEFAULT_DEAL,
+  };
+
+  openCreateDealModal() {
+    this.newDeal = {
+      ...DEFAULT_DEAL,
+    };
+    this.isAddDealModalOpen.set(true);
+  }
+  closeCreateDealModal(): void {
+    this.isAddDealModalOpen.set(false);
+  }
+  createFlightDeal(deal: LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest): void {
+    this.isSubmittingDeal.set(true);
+    this.flightService
+      .lowCostFlightFlightsCreateFlightDealCreateFlightDealEndpoint({
+        ...deal,
+        departureAirport: deal.departureAirport?.trim().toUpperCase(),
+        arrivalAirport: deal.arrivalAirport?.trim().toUpperCase(),
+      })
+      .subscribe({
+        next: (res) => {
+          console.log('Offerta creata con successo:', res);
+          this.isSubmittingDeal.set(false);
+          this.closeCreateDealModal();
+          // Opzionale: aggiorna la lista dei voli o notifica l'utente
+          this.onSearch();
+        },
+        error: (err) => {
+          console.error('Errore durante la creazione del volo:', err);
+          this.isSubmittingDeal.set(false);
+          alert('Errore durante il salvataggio del volo.');
+        },
+      });
+  }
 
   // Filtri di ricerca API (stato centralizzato nel componente genitore)
   filters = signal<FlightSearchParams>({ ...DEFAULT_SEARCH_PARAMS });
@@ -37,26 +85,40 @@ export class FlightSearchComponent {
   errorMessage = signal<string | null>(null);
   hasSearched = signal(false);
 
-  // Voli filtrati e ordinati reattivamente (solo voli con sconto reale o destinazione specifica)
+  // Conteggi per i badge dei tab di filtro
+  readonly tabCounts = computed(() => {
+    const flights = this.flights();
+    // Tutte le offerte con sconto reale (> 50%)
+    const baseList = flights.filter((f) => (f.discountPercentage ?? 0) > 50);
+
+    return {
+      all: baseList.length,
+      under50: baseList.filter((f) => (f.price ?? 0) <= 50).length,
+      direct: baseList.filter((f) => (f.stops ?? 0) === 0).length,
+      topDiscount: baseList.length,
+    };
+  });
+
+  // Voli filtrati e ordinati reattivamente (solo voli con sconto reale)
   readonly visibleFlights = computed(() => {
-    const hasArrival = !!this.filters().arrivalId?.trim();
-    let list = this.flights().filter((f) => (f.discountPercentage ?? 0) > 0 || hasArrival);
+    let list = this.flights().filter((f) => (f.discountPercentage ?? 0) > 50);
 
     // Filtro rapido tab
     if (this.activeTab() === 'under50') {
       list = list.filter((f) => (f.price ?? 0) <= 50);
     } else if (this.activeTab() === 'direct') {
-      list = list.filter((f) => f.stops === 0);
+      list = list.filter((f) => (f.stops ?? 0) === 0);
     } else if (this.activeTab() === 'topDiscount') {
-      list = list.filter((f) => (f.discountPercentage ?? 0) >= 30);
+      list = list.filter((f) => (f.discountPercentage ?? 0) > 0);
     }
 
     // Ordinamento
-    if (this.sortBy() === 'price') {
+    const currentSort = this.sortBy();
+    if (currentSort === 'price') {
       list.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
-    } else if (this.sortBy() === 'discount') {
+    } else if (currentSort === 'discount') {
       list.sort((a, b) => (b.discountPercentage ?? 0) - (a.discountPercentage ?? 0));
-    } else if (this.sortBy() === 'duration') {
+    } else if (currentSort === 'duration') {
       list.sort((a, b) => (a.durationInMinutes ?? 0) - (b.durationInMinutes ?? 0));
     }
 
@@ -72,6 +134,11 @@ export class FlightSearchComponent {
 
   setFilterTab(tab: 'all' | 'under50' | 'direct' | 'topDiscount'): void {
     this.activeTab.set(tab);
+    if (tab === 'topDiscount') {
+      this.sortBy.set('discount');
+    } else if (tab === 'all') {
+      this.sortBy.set('price');
+    }
   }
 
   setSortBy(sort: 'price' | 'discount' | 'duration'): void {
@@ -115,5 +182,3 @@ export class FlightSearchComponent {
       });
   }
 }
-
-

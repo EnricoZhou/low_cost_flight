@@ -1,0 +1,142 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs">
+  <div
+    class="w-full max-w-lg bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-2xl p-6 shadow-2xl relative text-[var(--ink-primary)]"
+  >
+    <!-- Intestazione Modale -->
+    <div class="flex justify-between items-center mb-5 pb-3 border-b border-[var(--keyline)]">
+      <h3 class="text-base font-bold font-editorial-mono">AGGIUNGI NUOVA OFFERTA VOLO</h3>
+      <button
+        type="button"
+        (click)="onCancel()"
+        class="text-[var(--ink-faint)] hover:text-[var(--ink-primary)] cursor-pointer text-xl"
+      >
+        ✕
+      </button>
+    </div>
+
+    <!-- Campi del Form -->
+    <form (ngSubmit)="onSubmit()" class="space-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-mono text-[var(--ink-secondary)] mb-1"
+            >Aeroporto Partenza (es. MXP)*</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="newDeal.departureAirport"
+            name="departureAirport"
+            required
+            class="w-full bg-[var(--bg-input)] border border-[var(--keyline)] rounded-lg p-2.5 text-sm uppercase focus:border-[var(--beacon-blue)] focus:outline-hidden"
+          />
+        </div>
+        <div>
+          <label class="block text-xs font-mono text-[var(--ink-secondary)] mb-1"
+            >Aeroporto Arrivo (es. BCN)*</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="newDeal.arrivalAirport"
+            name="arrivalAirport"
+            required
+            class="w-full bg-[var(--bg-input)] border border-[var(--keyline)] rounded-lg p-2.5 text-sm uppercase focus:border-[var(--beacon-blue)] focus:outline-hidden"
+          />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-xs font-mono text-[var(--ink-secondary)] mb-1"
+            >Città Destinazione</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="newDeal.nameCity"
+            name="nameCity"
+            placeholder="es. Barcellona"
+            class="w-full bg-[var(--bg-input)] border border-[var(--keyline)] rounded-lg p-2.5 text-sm focus:border-[var(--beacon-blue)] focus:outline-hidden"
+          />
+        </div>
+        <div>
+          <label class="block text-xs font-mono text-[var(--ink-secondary)] mb-1"
+            >Compagnia Aerea</label
+          >
+          <input
+            type="text"
+            [(ngModel)]="newDeal.airline"
+            name="airline"
+            placeholder="es. Ryanair"
+            class="w-full bg-[var(--bg-input)] border border-[var(--keyline)] rounded-lg p-2.5 text-sm focus:border-[var(--beacon-blue)] focus:outline-hidden"
+          />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3">
+        <div>
+          <label class="block text-xs font-mono text-[var(--ink-secondary)] mb-1"
+            >Prezzo (€)*</label
+          >
+          <input
+            type="number"
+            [(ngModel)]="newDeal.price"
+            name="price"
+            required
+            min="1"
+            class="w-full bg-[var(--bg-input)] border border-[var(--keyline)] rounded-lg p-2.5 text-sm focus:border-[var(--beacon-blue)] focus:outline-hidden"
+          />
+        </div>
+        <div>
+          <label class="block text-xs font-mono text-[var(--ink-secondary)] mb-1"
+            >Prezzo Medio (€)</label
+          >
+          <input
+            type="number"
+            [(ngModel)]="newDeal.averagePrice"
+            name="averagePrice"
+            class="w-full bg-[var(--bg-input)] border border-[var(--keyline)] rounded-lg p-2.5 text-sm focus:border-[var(--beacon-blue)] focus:outline-hidden"
+          />
+        </div>
+        <div>
+          <label class="block text-xs font-mono text-[var(--ink-secondary)] mb-1">Scali</label>
+          <input
+            type="number"
+            [(ngModel)]="newDeal.stops"
+            name="stops"
+            min="0"
+            class="w-full bg-[var(--bg-input)] border border-[var(--keyline)] rounded-lg p-2.5 text-sm focus:border-[var(--beacon-blue)] focus:outline-hidden"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-mono text-[var(--ink-secondary)] mb-1"
+          >Link Prenotazione</label
+        >
+        <input
+          type="url"
+          [(ngModel)]="newDeal.flightLink"
+          name="flightLink"
+          placeholder="https://..."
+          class="w-full bg-[var(--bg-input)] border border-[var(--keyline)] rounded-lg p-2.5 text-sm focus:border-[var(--beacon-blue)] focus:outline-hidden"
+        />
+      </div>
+
+      <!-- Pulsanti Azione -->
+      <div class="flex justify-end gap-3 pt-4 border-t border-[var(--keyline)]">
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="px-4 py-2 border border-[var(--keyline)] rounded-lg text-xs font-mono hover:bg-[var(--bg-input)] cursor-pointer"
+        >
+          Annulla
+        </button>
+        <button
+          type="submit"
+          [disabled]="isSubmittingDeal()"
+          class="px-5 py-2 bg-[var(--beacon-blue)] text-white font-bold rounded-lg text-xs font-mono hover:opacity-90 disabled:opacity-50 cursor-pointer"
+        >
+          {{ isSubmittingDeal() ? 'Salvataggio...' : 'Crea Volo' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
