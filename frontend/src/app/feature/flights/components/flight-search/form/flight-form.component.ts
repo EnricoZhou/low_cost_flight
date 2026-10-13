@@ -24,7 +24,7 @@ import { FlightSearchParams } from "../../../models";
         LucideX,
         LucideSearch,
     ],
-    templateUrl: "./flight-form-component.html",
+    templateUrl: "./flight-form.component.html",
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FlightFormComponent {
