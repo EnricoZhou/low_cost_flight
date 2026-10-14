@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest } from '../../../core/api/models';
+=======
+import { LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest } from "../../../core/api/models";
+>>>>>>> e01c44ab014ac8f22451b6eb91066a29fafa748d
 
 export interface FlightSearchParams {
   departureId: string;
@@ -20,6 +24,10 @@ export const DEFAULT_SEARCH_PARAMS: FlightSearchParams = {
   stops: 0,
 };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> e01c44ab014ac8f22451b6eb91066a29fafa748d
 export const DEFAULT_DEAL: LowCostFlightFlightsCreateFlightDealCreateFlightDealRequest = {
   departureAirport: '',
   arrivalAirport: '',
@@ -33,4 +41,8 @@ export const DEFAULT_DEAL: LowCostFlightFlightsCreateFlightDealCreateFlightDealR
   stops: 0,
   flightLink: '',
   description: '',
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> e01c44ab014ac8f22451b6eb91066a29fafa748d

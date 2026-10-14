@@ -13,6 +13,10 @@ import { FlightSearchParams, DEFAULT_SEARCH_PARAMS, DEFAULT_DEAL } from '../../m
 import { FlightArchitectureComponent } from './architecture/flight-architecture.component';
 import { FlightCreateModalComponent } from './create-flight/flight-create-modal.component';
 import { AuthService } from '../../../../core/services/auth.service';
+import { FlightSearchParams, DEFAULT_SEARCH_PARAMS, DEFAULT_DEAL } from '../../models';
+import { FlightArchitectureComponent } from './architecture/flight-architecture.component';
+import { FlightCreateModalComponent } from './create-flight/flight-create-modal.component';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-flight-search',
@@ -23,6 +27,8 @@ import { AuthService } from '../../../../core/services/auth.service';
     FlightCardComponent,
     FlightHeroComponent,
     FlightFormComponent,
+    FlightArchitectureComponent,
+    FlightCreateModalComponent,
     FlightArchitectureComponent,
     FlightCreateModalComponent,
   ],
@@ -100,7 +106,23 @@ export class FlightSearchComponent {
   });
 
   // Voli filtrati e ordinati reattivamente (solo voli con sconto reale)
+  // Conteggi per i badge dei tab di filtro
+  readonly tabCounts = computed(() => {
+    const flights = this.flights();
+    // Tutte le offerte con sconto reale (> 50%)
+    const baseList = flights.filter((f) => (f.discountPercentage ?? 0) > 50);
+
+    return {
+      all: baseList.length,
+      under50: baseList.filter((f) => (f.price ?? 0) <= 50).length,
+      direct: baseList.filter((f) => (f.stops ?? 0) === 0).length,
+      topDiscount: baseList.length,
+    };
+  });
+
+  // Voli filtrati e ordinati reattivamente (solo voli con sconto reale)
   readonly visibleFlights = computed(() => {
+    let list = this.flights().filter((f) => (f.discountPercentage ?? 0) > 50);
     let list = this.flights().filter((f) => (f.discountPercentage ?? 0) > 50);
 
     // Filtro rapido tab
@@ -108,22 +130,28 @@ export class FlightSearchComponent {
       list = list.filter((f) => (f.price ?? 0) <= 50);
     } else if (this.activeTab() === 'direct') {
       list = list.filter((f) => (f.stops ?? 0) === 0);
+      list = list.filter((f) => (f.stops ?? 0) === 0);
     } else if (this.activeTab() === 'topDiscount') {
+      list = list.filter((f) => (f.discountPercentage ?? 0) > 0);
       list = list.filter((f) => (f.discountPercentage ?? 0) > 0);
     }
 
     // Ordinamento
     const currentSort = this.sortBy();
     if (currentSort === 'price') {
-      list.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
-    } else if (currentSort === 'discount') {
-      list.sort((a, b) => (b.discountPercentage ?? 0) - (a.discountPercentage ?? 0));
-    } else if (currentSort === 'duration') {
-      list.sort((a, b) => (a.durationInMinutes ?? 0) - (b.durationInMinutes ?? 0));
-    }
+      const currentSort = this.sortBy();
+      if (currentSort === 'price') {
+        list.sort((a, b) => (a.price ?? 0) - (b.price ?? 0));
+      } else if (currentSort === 'discount') {
+      } else if (currentSort === 'discount') {
+        list.sort((a, b) => (b.discountPercentage ?? 0) - (a.discountPercentage ?? 0));
+      } else if (currentSort === 'duration') {
+      } else if (currentSort === 'duration') {
+        list.sort((a, b) => (a.durationInMinutes ?? 0) - (b.durationInMinutes ?? 0));
+      }
 
-    return list;
-  });
+      return list;
+    });
 
   resetFilters(): void {
     this.filters.set({ ...DEFAULT_SEARCH_PARAMS });
@@ -134,6 +162,11 @@ export class FlightSearchComponent {
 
   setFilterTab(tab: 'all' | 'under50' | 'direct' | 'topDiscount'): void {
     this.activeTab.set(tab);
+    if (tab === 'topDiscount') {
+      this.sortBy.set('discount');
+    } else if (tab === 'all') {
+      this.sortBy.set('price');
+    }
     if (tab === 'topDiscount') {
       this.sortBy.set('discount');
     } else if (tab === 'all') {

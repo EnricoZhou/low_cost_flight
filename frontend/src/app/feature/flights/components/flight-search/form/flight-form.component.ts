@@ -23,9 +23,30 @@ import { FlightSearchParams } from '../../../models';
     LucideArrowLeftRight,
     LucideX,
     LucideSearch,
+<<<<<<< HEAD
   ],
   templateUrl: './flight-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+=======
+} from '@lucide/angular';
+import { FlightSearchParams } from "../../../models";
+
+@Component({
+    selector: "app-flight-form",
+    standalone: true,
+    imports: [
+        CommonModule,
+        FormsModule,
+        LucideCalendar,
+        LucidePlane,
+        LucideMapPin,
+        LucideArrowLeftRight,
+        LucideX,
+        LucideSearch,
+    ],
+    templateUrl: "./flight-form.component.html",
+    changeDetection: ChangeDetectionStrategy.OnPush,
+>>>>>>> e01c44ab014ac8f22451b6eb91066a29fafa748d
 })
 export class FlightFormComponent {
   readonly isLoading = input<boolean>(false);
