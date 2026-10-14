@@ -59,3 +59,9 @@ Se modifichi gli endpoint nel backend, aggiorna i client TypeScript con:
 cd frontend
 npm run generate-api
 ```
+
+---
+
+## 📄 Licenza
+
+Questo progetto è distribuito sotto la licenza [MIT](LICENSE). Vedere il file [LICENSE](LICENSE) per ulteriori dettagli.

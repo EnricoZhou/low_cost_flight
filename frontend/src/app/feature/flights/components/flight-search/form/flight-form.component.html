@@ -1,0 +1,451 @@
+<<<<<<< HEAD
+<section
+  id="search-terminal"
+  class="bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-2xl p-6 sm:p-8 shadow-xl mb-14 transition-all duration-300 hover:border-[var(--keyline-hover)]"
+>
+  <div class="flex items-center justify-between pb-5 mb-6 border-b border-[var(--keyline)]">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-[var(--beacon-emerald)]"></span>
+      <span
+        class="font-editorial-mono text-xs text-[var(--ink-primary)] font-semibold tracking-wider"
+      >
+        TERMINAL // QUERY PARAMS
+      </span>
+    </div>
+    <span class="font-editorial-mono text-[10px] text-[var(--ink-faint)] hidden sm:inline">
+      CACHE TTL: 600 SECONDS
+    </span>
+  </div>
+
+  <form (ngSubmit)="onSearch()" class="space-y-6">
+    <!-- Prima riga: Tratta e Aeroporti -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 items-end">
+      <!-- Departure IATA (5 cols on lg) -->
+      <div class="space-y-1.5 lg:col-span-5">
+        <label
+          for="departure"
+          class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between"
+        >
+          <span>ORIGINE [IATA]</span>
+          <span class="text-[var(--beacon-blue)] text-[10px]">REQUIRED</span>
+        </label>
+        <div class="relative">
+          <div
+            class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
+            aria-hidden="true"
+          >
+            <svg lucidePlane class="w-4 h-4"></svg>
+          </div>
+          <input
+            id="departure"
+            type="text"
+            [ngModel]="filters().departureId"
+            (ngModelChange)="updateField('departureId', $event)"
+            name="departureId"
+            placeholder="ES. MXP, FCO, BGY"
+            maxlength="3"
+            required
+            class="w-full min-h-[46px] pl-10 pr-3.5 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-sm font-mono tracking-wider focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all uppercase"
+          />
+        </div>
+      </div>
+
+      <!-- Swap Airports (1 col on lg) -->
+      <div class="hidden lg:flex lg:col-span-1 justify-center pb-0.5">
+        <button
+          type="button"
+          (click)="swapAirports()"
+          [disabled]="!filters().arrivalId"
+          aria-label="Inverti aeroporto di partenza e arrivo"
+          class="min-h-[44px] min-w-[44px] rounded-xl bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)] disabled:opacity-25 disabled:cursor-not-allowed text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] flex items-center justify-center transition-all cursor-pointer border border-[var(--keyline)]"
+        >
+          <svg lucideArrowLeftRight class="w-4 h-4"></svg>
+        </button>
+      </div>
+
+      <!-- Destination IATA (6 cols on lg) -->
+      <div class="space-y-1.5 lg:col-span-6">
+        <label
+          for="arrival"
+          class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between"
+        >
+          <span>DESTINAZIONE [IATA]</span>
+          <span class="text-[var(--ink-faint)] text-[10px]">ANY DESTINATION</span>
+        </label>
+        <div class="relative">
+          <div
+            class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
+            aria-hidden="true"
+          >
+            <svg lucideMapPin class="w-4 h-4"></svg>
+          </div>
+          <input
+            id="arrival"
+            type="text"
+            [ngModel]="filters().arrivalId"
+            (ngModelChange)="updateField('arrivalId', $event)"
+            name="arrivalId"
+            placeholder="ES. BCN, JFK (OPPURE VUOTO)"
+            maxlength="3"
+            class="w-full min-h-[46px] pl-10 pr-3.5 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-sm font-mono tracking-wider focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all uppercase"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Seconda riga: Date, Scali e Budget -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 items-end">
+      <!-- Data Andata (4 cols on lg) -->
+      <div class="space-y-1.5 lg:col-span-4">
+        <label
+          for="outboundDate"
+          class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between"
+        >
+          <span>DATA ANDATA [OUTBOUND]</span>
+          <span class="text-[var(--ink-faint)] text-[10px]">FACOLTATIVO</span>
+        </label>
+        <div class="relative">
+          <div
+            class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
+            aria-hidden="true"
+          >
+            <svg lucideCalendar class="w-4 h-4"></svg>
+          </div>
+          <input
+            id="outboundDate"
+            type="date"
+            [ngModel]="filters().outboundDate"
+            (ngModelChange)="updateField('outboundDate', $event)"
+            name="outboundDate"
+            class="w-full min-h-[46px] pl-10 pr-9 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all cursor-pointer"
+          />
+          @if (filters().outboundDate) {
+            <button
+              type="button"
+              (click)="updateField('outboundDate', '')"
+              aria-label="Cancella data andata"
+              class="absolute inset-y-0 right-8 flex items-center text-[var(--ink-faint)] hover:text-[var(--ink-primary)] transition-colors cursor-pointer"
+            >
+              <svg lucideX class="w-3.5 h-3.5"></svg>
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Data Ritorno (4 cols on lg) -->
+      <div class="space-y-1.5 lg:col-span-4">
+        <label
+          for="returnDate"
+          class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between"
+        >
+          <span>DATA RITORNO [RETURN]</span>
+          <span class="text-[var(--ink-faint)] text-[10px]">FACOLTATIVO</span>
+        </label>
+        <div class="relative">
+          <div
+            class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
+            aria-hidden="true"
+          >
+            <svg lucideCalendar class="w-4 h-4"></svg>
+          </div>
+          <input
+            id="returnDate"
+            type="date"
+            [min]="filters().outboundDate"
+            [ngModel]="filters().returnDate"
+            (ngModelChange)="updateField('returnDate', $event)"
+            name="returnDate"
+            class="w-full min-h-[46px] pl-10 pr-9 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all cursor-pointer"
+          />
+          @if (filters().returnDate) {
+            <button
+              type="button"
+              (click)="updateField('returnDate', '')"
+              aria-label="Cancella data ritorno"
+              class="absolute inset-y-0 right-8 flex items-center text-[var(--ink-faint)] hover:text-[var(--ink-primary)] transition-colors cursor-pointer"
+            >
+              <svg lucideX class="w-3.5 h-3.5"></svg>
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Stops Selector (2 cols on lg) -->
+      <div class="space-y-1.5 lg:col-span-2">
+        <label for="stops" class="font-editorial-mono text-[11px] text-[var(--ink-secondary)]">
+          SCALI [MAX]
+        </label>
+        <div class="relative">
+          <select
+            id="stops"
+            [ngModel]="filters().stops ?? 0"
+            (ngModelChange)="updateField('stops', +$event)"
+            name="stops"
+            class="w-full min-h-[46px] px-3 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] transition-all cursor-pointer"
+          >
+            <option [value]="0" class="bg-[var(--bg-surface)] text-[var(--ink-primary)]">
+              TUTTI
+            </option>
+            <option [value]="1" class="bg-[var(--bg-surface)] text-[var(--ink-primary)]">
+              SOLO DIRETTI
+            </option>
+            <option [value]="2" class="bg-[var(--bg-surface)] text-[var(--ink-primary)]">
+              MAX 1 SCALO
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Budget Max (2 cols on lg) -->
+      <div class="space-y-1.5 lg:col-span-2">
+        <label for="maxPrice" class="font-editorial-mono text-[11px] text-[var(--ink-secondary)]">
+          BUDGET (€)
+        </label>
+        <input
+          id="maxPrice"
+          type="number"
+          [ngModel]="filters().maxPrice"
+          (ngModelChange)="updateField('maxPrice', $event ? +$event : null)"
+          name="maxPrice"
+          placeholder="MAX PREZZO"
+          min="1"
+          class="w-full min-h-[46px] px-3 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] transition-all"
+        />
+      </div>
+    </div>
+
+    <!-- Quick Destination Badges (mikes.cv inspired mono pill selection) -->
+    <div class="flex items-center flex-wrap gap-2 pt-4 border-t border-[var(--keyline)]">
+      <span class="font-editorial-mono text-[11px] text-[var(--ink-faint)] mr-2"
+        >RADAR PRESETS:</span
+      >
+      <div class="flex flex-wrap gap-1.5">
+        @for (chip of popularAirports; track chip.code) {
+          <button
+            type="button"
+            class="inline-flex items-center gap-1.5 min-h-[34px] px-3 py-1 rounded-full text-xs font-editorial-mono border transition-all cursor-pointer active:scale-95"
+            [class]="
+              (filters().arrivalId || '') === chip.code
+                ? 'bg-[var(--beacon-blue)] text-white border-[var(--beacon-blue)] shadow-[0_0_12px_rgba(44,111,255,0.4)]'
+                : 'bg-[var(--bg-input)] border-[var(--keyline)] text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] hover:border-[var(--keyline-hover)]'
+            "
+            (click)="selectPopularAirport(chip.code)"
+          >
+            <span>{{ chip.label }}</span>
+            @if (chip.code) {
+              <span class="text-[10px] opacity-60">[{{ chip.code }}]</span>
+            }
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Action Button -->
+    <div class="pt-2">
+      <button
+        type="submit"
+        [disabled]="isLoading()"
+        class="w-full min-h-[50px] py-3.5 px-6 rounded-xl font-editorial-mono text-xs font-bold tracking-widest text-[var(--btn-primary-text)] bg-[var(--btn-primary-bg)] hover:opacity-90 shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.99]"
+      >
+        @if (isLoading()) {
+          <span
+            class="inline-block w-4 h-4 border-2 border-[var(--btn-primary-text)] border-t-transparent rounded-full animate-spin"
+            aria-hidden="true"
+          ></span>
+          <span>SCANNING RADAR & QUERYING REDIS CACHE...</span>
+        } @else {
+          <svg lucideSearch class="w-4 h-4"></svg>
+          <span>ESEGUI RICERCA TARIFFA OTTIMALE [SEARCH]</span>
+        }
+      </button>
+    </div>
+  </form>
+</section>
+=======
+<section id="search-terminal"
+    class="bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-2xl p-6 sm:p-8 shadow-xl mb-14 transition-all duration-300 hover:border-[var(--keyline-hover)]">
+    <div class="flex items-center justify-between pb-5 mb-6 border-b border-[var(--keyline)]">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-[var(--beacon-emerald)]"></span>
+            <span class="font-editorial-mono text-xs text-[var(--ink-primary)] font-semibold tracking-wider">
+                TERMINAL // QUERY PARAMS
+            </span>
+        </div>
+        <span class="font-editorial-mono text-[10px] text-[var(--ink-faint)] hidden sm:inline">
+            CACHE TTL: 600 SECONDS
+        </span>
+    </div>
+
+    <form (ngSubmit)="onSearch()" class="space-y-6">
+        <!-- Prima riga: Tratta e Aeroporti -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 items-end">
+            <!-- Departure IATA (5 cols on lg) -->
+            <div class="space-y-1.5 lg:col-span-5">
+                <label for="departure"
+                    class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between">
+                    <span>ORIGINE [IATA]</span>
+                    <span class="text-[var(--beacon-blue)] text-[10px]">REQUIRED</span>
+                </label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
+                        aria-hidden="true">
+                        <svg lucidePlane class="w-4 h-4"></svg>
+                    </div>
+                    <input id="departure" type="text" [ngModel]="filters().departureId"
+                        (ngModelChange)="updateField('departureId', $event)" name="departureId" placeholder="ES. MXP, FCO, BGY"
+                        maxlength="3" required
+                        class="w-full min-h-[46px] pl-10 pr-3.5 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-sm font-mono tracking-wider focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all uppercase" />
+                </div>
+            </div>
+
+            <!-- Swap Airports (1 col on lg) -->
+            <div class="hidden lg:flex lg:col-span-1 justify-center pb-0.5">
+                <button type="button" (click)="swapAirports()" [disabled]="!filters().arrivalId"
+                    aria-label="Inverti aeroporto di partenza e arrivo"
+                    class="min-h-[44px] min-w-[44px] rounded-xl bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)] disabled:opacity-25 disabled:cursor-not-allowed text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] flex items-center justify-center transition-all cursor-pointer border border-[var(--keyline)]">
+                    <svg lucideArrowLeftRight class="w-4 h-4"></svg>
+                </button>
+            </div>
+
+            <!-- Destination IATA (6 cols on lg) -->
+            <div class="space-y-1.5 lg:col-span-6">
+                <label for="arrival"
+                    class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between">
+                    <span>DESTINAZIONE [IATA]</span>
+                    <span class="text-[var(--ink-faint)] text-[10px]">ANY DESTINATION</span>
+                </label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
+                        aria-hidden="true">
+                        <svg lucideMapPin class="w-4 h-4"></svg>
+                    </div>
+                    <input id="arrival" type="text" [ngModel]="filters().arrivalId"
+                        (ngModelChange)="updateField('arrivalId', $event)"
+                        name="arrivalId" placeholder="ES. BCN, JFK (OPPURE VUOTO)" maxlength="3"
+                        class="w-full min-h-[46px] pl-10 pr-3.5 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-sm font-mono tracking-wider focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all uppercase" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Seconda riga: Date, Scali e Budget -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 items-end">
+            <!-- Data Andata (4 cols on lg) -->
+            <div class="space-y-1.5 lg:col-span-4">
+                <label for="outboundDate"
+                    class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between">
+                    <span>DATA ANDATA [OUTBOUND]</span>
+                    <span class="text-[var(--ink-faint)] text-[10px]">FACOLTATIVO</span>
+                </label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
+                        aria-hidden="true">
+                        <svg lucideCalendar class="w-4 h-4"></svg>
+                    </div>
+                    <input id="outboundDate" type="date" [ngModel]="filters().outboundDate"
+                        (ngModelChange)="updateField('outboundDate', $event)" name="outboundDate"
+                        class="w-full min-h-[46px] pl-10 pr-9 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all cursor-pointer" />
+                    @if (filters().outboundDate) {
+                    <button type="button" (click)="updateField('outboundDate', '')" aria-label="Cancella data andata"
+                        class="absolute inset-y-0 right-8 flex items-center text-[var(--ink-faint)] hover:text-[var(--ink-primary)] transition-colors cursor-pointer">
+                        <svg lucideX class="w-3.5 h-3.5"></svg>
+                    </button>
+                    }
+                </div>
+            </div>
+
+            <!-- Data Ritorno (4 cols on lg) -->
+            <div class="space-y-1.5 lg:col-span-4">
+                <label for="returnDate"
+                    class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between">
+                    <span>DATA RITORNO [RETURN]</span>
+                    <span class="text-[var(--ink-faint)] text-[10px]">FACOLTATIVO</span>
+                </label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
+                        aria-hidden="true">
+                        <svg lucideCalendar class="w-4 h-4"></svg>
+                    </div>
+                    <input id="returnDate" type="date" [min]="filters().outboundDate" [ngModel]="filters().returnDate"
+                        (ngModelChange)="updateField('returnDate', $event)" name="returnDate"
+                        class="w-full min-h-[46px] pl-10 pr-9 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all cursor-pointer" />
+                    @if (filters().returnDate) {
+                    <button type="button" (click)="updateField('returnDate', '')" aria-label="Cancella data ritorno"
+                        class="absolute inset-y-0 right-8 flex items-center text-[var(--ink-faint)] hover:text-[var(--ink-primary)] transition-colors cursor-pointer">
+                        <svg lucideX class="w-3.5 h-3.5"></svg>
+                    </button>
+                    }
+                </div>
+            </div>
+
+            <!-- Stops Selector (2 cols on lg) -->
+            <div class="space-y-1.5 lg:col-span-2">
+                <label for="stops" class="font-editorial-mono text-[11px] text-[var(--ink-secondary)]">
+                    SCALI [MAX]
+                </label>
+                <div class="relative">
+                    <select id="stops" [ngModel]="filters().stops ?? 0" (ngModelChange)="updateField('stops', +$event)" name="stops"
+                        class="w-full min-h-[46px] px-3 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] transition-all cursor-pointer">
+                        <option [value]="0" class="bg-[var(--bg-surface)] text-[var(--ink-primary)]">
+                            TUTTI
+                        </option>
+                        <option [value]="1" class="bg-[var(--bg-surface)] text-[var(--ink-primary)]">
+                            SOLO DIRETTI
+                        </option>
+                        <option [value]="2" class="bg-[var(--bg-surface)] text-[var(--ink-primary)]">
+                            MAX 1 SCALO
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Budget Max (2 cols on lg) -->
+            <div class="space-y-1.5 lg:col-span-2">
+                <label for="maxPrice" class="font-editorial-mono text-[11px] text-[var(--ink-secondary)]">
+                    BUDGET (€)
+                </label>
+                <input id="maxPrice" type="number" [ngModel]="filters().maxPrice"
+                    (ngModelChange)="updateField('maxPrice', $event ? +$event : null)" name="maxPrice" placeholder="MAX PREZZO"
+                    min="1"
+                    class="w-full min-h-[46px] px-3 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] transition-all" />
+            </div>
+        </div>
+
+        <!-- Quick Destination Badges (mikes.cv inspired mono pill selection) -->
+        <div class="flex items-center flex-wrap gap-2 pt-4 border-t border-[var(--keyline)]">
+            <span class="font-editorial-mono text-[11px] text-[var(--ink-faint)] mr-2">RADAR PRESETS:</span>
+            <div class="flex flex-wrap gap-1.5">
+                @for (chip of popularAirports; track chip.code) {
+                <button type="button"
+                    class="inline-flex items-center gap-1.5 min-h-[34px] px-3 py-1 rounded-full text-xs font-editorial-mono border transition-all cursor-pointer active:scale-95"
+                    [class]="
+                (filters().arrivalId || '') === chip.code
+                  ? 'bg-[var(--beacon-blue)] text-white border-[var(--beacon-blue)] shadow-[0_0_12px_rgba(44,111,255,0.4)]'
+                  : 'bg-[var(--bg-input)] border-[var(--keyline)] text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] hover:border-[var(--keyline-hover)]'
+              " (click)="selectPopularAirport(chip.code)">
+                    <span>{{ chip.label }}</span>
+                    @if (chip.code) {
+                    <span class="text-[10px] opacity-60">[{{ chip.code }}]</span>
+                    }
+                </button>
+                }
+            </div>
+        </div>
+
+        <!-- Action Button -->
+        <div class="pt-2">
+            <button type="submit" [disabled]="isLoading()"
+                class="w-full min-h-[50px] py-3.5 px-6 rounded-xl font-editorial-mono text-xs font-bold tracking-widest text-[var(--btn-primary-text)] bg-[var(--btn-primary-bg)] hover:opacity-90 shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.99]">
+                @if (isLoading()) {
+                <span
+                    class="inline-block w-4 h-4 border-2 border-[var(--btn-primary-text)] border-t-transparent rounded-full animate-spin"
+                    aria-hidden="true"></span>
+                <span>SCANNING RADAR & QUERYING REDIS CACHE...</span>
+                } @else {
+                <svg lucideSearch class="w-4 h-4"></svg>
+                <span>ESEGUI RICERCA TARIFFA OTTIMALE [SEARCH]</span>
+                }
+            </button>
+        </div>
+    </form>
+</section>
+>>>>>>> e01c44ab014ac8f22451b6eb91066a29fafa748d

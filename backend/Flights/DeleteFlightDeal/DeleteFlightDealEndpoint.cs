@@ -1,4 +1,5 @@
 using FastEndpoints;
+using low_cost_flight.Common;
 using low_cost_flight.Data;
 
 namespace low_cost_flight.Flights.DeleteFlightDeal;
@@ -15,7 +16,7 @@ public class DeleteFlightDealEndpoint : Endpoint<DeleteFlightDealRequest>
     public override void Configure()
     {
         Delete("/api/flight-deals/{Id}");
-        AllowAnonymous();
+        Roles(AppRoles.Admin);
         Summary(s =>
         {
             s.Summary = "Elimina un'offerta volo dal database";

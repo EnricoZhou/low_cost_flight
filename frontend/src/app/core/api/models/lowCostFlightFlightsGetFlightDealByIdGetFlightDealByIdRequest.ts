@@ -5,4 +5,6 @@
  * OpenAPI spec version: v1
  */
 
-export interface LowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdRequest { [key: string]: unknown }
+export interface LowCostFlightFlightsGetFlightDealByIdGetFlightDealByIdRequest {
+  [key: string]: unknown;
+}

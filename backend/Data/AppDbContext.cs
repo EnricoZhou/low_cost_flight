@@ -23,7 +23,7 @@ public class AppDbContext : AuditDbContext
         base.OnConfiguring(optionsBuilder);
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer("Server=localhost;Database=LowCostFlightDb;Trusted_Connection=True;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("Server=localhost;Database=LowCostFlightDb;User Id=sa;Password=TuaPasswordMoltoSicura123!;TrustServerCertificate=True;");
         }
     }
 

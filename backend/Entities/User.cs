@@ -1,3 +1,5 @@
+using low_cost_flight.Common;
+
 namespace low_cost_flight.Entities;
 
 public class User
@@ -8,7 +10,7 @@ public class User
     public string FullName { get; set; } = string.Empty;
     public string? PictureUrl { get; set; }
     public string? GoogleId { get; set; }
-    public string Role { get; set; } = "User";
+    public string Role { get; set; } = AppRoles.User;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? LastLoginAt { get; set; }
 }

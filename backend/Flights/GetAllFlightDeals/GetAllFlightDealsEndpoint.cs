@@ -1,6 +1,7 @@
 using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
 using low_cost_flight.Data;
+using low_cost_flight.Common;
 
 namespace low_cost_flight.Flights.GetAllFlightDeals;
 
@@ -16,7 +17,7 @@ public class GetAllFlightDealsEndpoint : Endpoint<GetAllFlightDealsRequest, GetA
     public override void Configure()
     {
         Get("/api/flight-deals");
-        AllowAnonymous();
+        Roles(AppRoles.Admin);
         Summary(s =>
         {
             s.Summary = "Recupera tutte le offerte volo dal database";

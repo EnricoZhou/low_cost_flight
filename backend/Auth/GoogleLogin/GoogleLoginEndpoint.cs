@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using low_cost_flight.Auth.Common;
 using low_cost_flight.Data;
 using low_cost_flight.Entities;
+using low_cost_flight.Common;
 
 namespace low_cost_flight.Auth.GoogleLogin;
 
@@ -101,7 +102,7 @@ public class GoogleLoginEndpoint : Endpoint<GoogleLoginRequest, AuthResponse>
                 FullName = name,
                 PictureUrl = picture,
                 GoogleId = googleSub,
-                Role = "User",
+                Role = AppRoles.User,
                 CreatedAt = DateTime.UtcNow,
                 LastLoginAt = DateTime.UtcNow
             };

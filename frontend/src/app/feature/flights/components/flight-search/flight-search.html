@@ -1,234 +1,46 @@
 <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+
   <!-- Hero Section (mikes.cv editorial minimalist headline) -->
-  <header class="mb-12 sm:mb-16">
-    <div class="flex items-center gap-2 mb-4">
-      <span class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-blue)] shadow-[0_0_8px_var(--beacon-blue)]"></span>
-      <span class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] tracking-widest uppercase">
-        FLIGHT INTELLIGENCE // REALTIME RADAR
-      </span>
+  <app-flight-hero />
+
+  <!-- Pulsante Admin -->
+  @if (authService.isAdmin()) {
+  <div
+    class="flex items-center justify-between p-4 mb-6 bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-xl">
+    <div class="font-editorial-mono text-sm text-[var(--ink-primary)]">
+      Pannello Amministratore
     </div>
+    <button type="button" (click)="openCreateDealModal()"
+      class="px-4 py-2 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-text)] font-bold rounded-lg hover:opacity-90 transition cursor-pointer">
+      + Add Flight
+    </button>
+  </div>
 
-    <h1 class="text-4xl sm:text-6xl font-bold tracking-tight text-[var(--ink-primary)] leading-[1.1] mb-5 max-w-3xl">
-      Trova tariffe aeree minime con
-      <span class="text-[var(--beacon-blue)] inline-block">calcolo di sconto reale.</span>
-    </h1>
+  <!-- Pop-up Modale per Inserire il Volo -->
+  @if (isAddDealModalOpen()) {
+  <app-flight-create-modal [isSubmittingDeal]="isSubmittingDeal()" (closeCreateDealModal)="closeCreateDealModal()"
+    (createFlightDeal)="createFlightDeal($event)" />
+  }
 
-    <p class="text-sm sm:text-base text-[var(--ink-secondary)] max-w-2xl leading-relaxed mb-8">
-      Motore di ricerca su Google Flights Deals interrogato tramite SerpApi, protetto da cache
-      distribuita Redis in-memory a risposta istantanea.
-    </p>
+  <!-- Error Alert -->
+  @if (errorMessage()) {
+  <div
+    class="flex items-center gap-3 p-4 bg-red-950/20 border border-red-800/40 rounded-xl text-red-400 text-xs font-editorial-mono mb-10 shadow-sm"
+    role="alert">
+    <svg class="w-4 h-4 text-red-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+      aria-hidden="true">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="12" y1="8" x2="12" y2="12"></line>
+      <line x1="12" y1="16" x2="12.01" y2="16"></line>
+    </svg>
+    <p>{{ errorMessage() }}</p>
+  </div>
+  }
+  }
 
-    <!-- Key Metrics Ribbon (Minimalist Hairline Grid) -->
-    <div
-      class="grid grid-cols-2 sm:grid-cols-3 gap-px bg-[var(--keyline)] border border-[var(--keyline)] rounded-xl overflow-hidden max-w-2xl shadow-sm">
-      <div class="p-4 bg-[var(--bg-surface)]">
-        <div class="font-editorial-mono text-[10px] text-[var(--ink-faint)] uppercase mb-1">
-          REDIS LATENCY
-        </div>
-        <div class="text-xl font-bold text-[var(--ink-primary)] tracking-tight">&lt; 5 ms</div>
-        <div class="text-[11px] text-[var(--ink-secondary)] mt-0.5">Memoria RAM in-cache</div>
-      </div>
-      <div class="p-4 bg-[var(--bg-surface)]">
-        <div class="font-editorial-mono text-[10px] text-[var(--ink-faint)] uppercase mb-1">
-          MAX SAVINGS
-        </div>
-        <div class="text-xl font-bold text-[var(--beacon-emerald)] tracking-tight">Fino a -70%</div>
-        <div class="text-[11px] text-[var(--ink-secondary)] mt-0.5">Sconto sul prezzo medio</div>
-      </div>
-      <div class="p-4 bg-[var(--bg-surface)] col-span-2 sm:col-span-1">
-        <div class="font-editorial-mono text-[10px] text-[var(--ink-faint)] uppercase mb-1">
-          CONTRACTS
-        </div>
-        <div class="text-xl font-bold text-[var(--beacon-blue)] tracking-tight">100% Type-Safe</div>
-        <div class="text-[11px] text-[var(--ink-secondary)] mt-0.5">FastEndpoints & Orval</div>
-      </div>
-    </div>
-  </header>
-
+  @if (authService.isUser()) {
   <!-- Search Terminal Card (#search-terminal) -->
-  <section id="search-terminal"
-    class="bg-[var(--bg-surface)] border border-[var(--keyline)] rounded-2xl p-6 sm:p-8 shadow-xl mb-14 transition-all duration-300 hover:border-[var(--keyline-hover)]">
-    <div class="flex items-center justify-between pb-5 mb-6 border-b border-[var(--keyline)]">
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-[var(--beacon-emerald)]"></span>
-        <span class="font-editorial-mono text-xs text-[var(--ink-primary)] font-semibold tracking-wider">
-          TERMINAL // QUERY PARAMS
-        </span>
-      </div>
-      <span class="font-editorial-mono text-[10px] text-[var(--ink-faint)] hidden sm:inline">
-        CACHE TTL: 600 SECONDS
-      </span>
-    </div>
-
-    <form (ngSubmit)="onSearch()" class="space-y-6">
-      <!-- Prima riga: Tratta e Aeroporti -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 items-end">
-        <!-- Departure IATA (5 cols on lg) -->
-        <div class="space-y-1.5 lg:col-span-5">
-          <label for="departure"
-            class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between">
-            <span>ORIGINE [IATA]</span>
-            <span class="text-[var(--beacon-blue)] text-[10px]">REQUIRED</span>
-          </label>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
-              aria-hidden="true">
-              <svg lucidePlane class="w-4 h-4"></svg>
-            </div>
-            <input id="departure" type="text" [ngModel]="departureId()" (ngModelChange)="departureId.set($event)"
-              name="departureId" placeholder="ES. MXP, FCO, BGY" maxlength="3" required
-              class="w-full min-h-[46px] pl-10 pr-3.5 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-sm font-mono tracking-wider focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all uppercase" />
-          </div>
-        </div>
-
-        <!-- Swap Airports (1 col on lg) -->
-        <div class="hidden lg:flex lg:col-span-1 justify-center pb-0.5">
-          <button type="button" (click)="swapAirports()" [disabled]="!arrivalId()"
-            aria-label="Inverti aeroporto di partenza e arrivo"
-            class="min-h-[44px] min-w-[44px] rounded-xl bg-[var(--pill-bg)] hover:bg-[var(--pill-hover)] disabled:opacity-25 disabled:cursor-not-allowed text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] flex items-center justify-center transition-all cursor-pointer border border-[var(--keyline)]">
-            <svg lucideArrowLeftRight class="w-4 h-4"></svg>
-          </button>
-        </div>
-
-        <!-- Destination IATA (6 cols on lg) -->
-        <div class="space-y-1.5 lg:col-span-6">
-          <label for="arrival"
-            class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between">
-            <span>DESTINAZIONE [IATA]</span>
-            <span class="text-[var(--ink-faint)] text-[10px]">ANY DESTINATION</span>
-          </label>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
-              aria-hidden="true">
-              <svg lucideMapPin class="w-4 h-4"></svg>
-            </div>
-            <input id="arrival" type="text" [ngModel]="arrivalId()" (ngModelChange)="arrivalId.set($event)"
-              name="arrivalId" placeholder="ES. BCN, JFK (OPPURE VUOTO)" maxlength="3"
-              class="w-full min-h-[46px] pl-10 pr-3.5 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-sm font-mono tracking-wider focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all uppercase" />
-          </div>
-        </div>
-      </div>
-
-      <!-- Seconda riga: Date, Scali e Budget -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 items-end">
-        <!-- Data Andata (4 cols on lg) -->
-        <div class="space-y-1.5 lg:col-span-4">
-          <label for="outboundDate"
-            class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between">
-            <span>DATA ANDATA [OUTBOUND]</span>
-            <span class="text-[var(--ink-faint)] text-[10px]">FACOLTATIVO</span>
-          </label>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
-              aria-hidden="true">
-              <svg lucideCalendar class="w-4 h-4"></svg>
-            </div>
-            <input id="outboundDate" type="date" [ngModel]="outboundDate()" (ngModelChange)="outboundDate.set($event)"
-              name="outboundDate"
-              class="w-full min-h-[46px] pl-10 pr-9 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all cursor-pointer" />
-            @if (outboundDate()) {
-            <button type="button" (click)="outboundDate.set('')" aria-label="Cancella data andata"
-              class="absolute inset-y-0 right-8 flex items-center text-[var(--ink-faint)] hover:text-[var(--ink-primary)] transition-colors cursor-pointer">
-              <svg lucideX class="w-3.5 h-3.5"></svg>
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Data Ritorno (4 cols on lg) -->
-        <div class="space-y-1.5 lg:col-span-4">
-          <label for="returnDate"
-            class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] flex items-center justify-between">
-            <span>DATA RITORNO [RETURN]</span>
-            <span class="text-[var(--ink-faint)] text-[10px]">FACOLTATIVO</span>
-          </label>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[var(--ink-faint)]"
-              aria-hidden="true">
-              <svg lucideCalendar class="w-4 h-4"></svg>
-            </div>
-            <input id="returnDate" type="date" [min]="outboundDate()" [ngModel]="returnDate()"
-              (ngModelChange)="returnDate.set($event)" name="returnDate"
-              class="w-full min-h-[46px] pl-10 pr-9 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] focus:ring-1 focus:ring-[var(--beacon-blue)] transition-all cursor-pointer" />
-            @if (returnDate()) {
-            <button type="button" (click)="returnDate.set('')" aria-label="Cancella data ritorno"
-              class="absolute inset-y-0 right-8 flex items-center text-[var(--ink-faint)] hover:text-[var(--ink-primary)] transition-colors cursor-pointer">
-              <svg lucideX class="w-3.5 h-3.5"></svg>
-            </button>
-            }
-          </div>
-        </div>
-
-        <!-- Stops Selector (2 cols on lg) -->
-        <div class="space-y-1.5 lg:col-span-2">
-          <label for="stops" class="font-editorial-mono text-[11px] text-[var(--ink-secondary)]">
-            SCALI [MAX]
-          </label>
-          <div class="relative">
-            <select id="stops" [ngModel]="stops()" (ngModelChange)="stops.set(+$event)" name="stops"
-              class="w-full min-h-[46px] px-3 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] transition-all cursor-pointer">
-              <option [value]="0" class="bg-[var(--bg-surface)] text-[var(--ink-primary)]">
-                TUTTI
-              </option>
-              <option [value]="1" class="bg-[var(--bg-surface)] text-[var(--ink-primary)]">
-                SOLO DIRETTI
-              </option>
-              <option [value]="2" class="bg-[var(--bg-surface)] text-[var(--ink-primary)]">
-                MAX 1 SCALO
-              </option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Budget Max (2 cols on lg) -->
-        <div class="space-y-1.5 lg:col-span-2">
-          <label for="maxPrice" class="font-editorial-mono text-[11px] text-[var(--ink-secondary)]">
-            BUDGET (€)
-          </label>
-          <input id="maxPrice" type="number" [ngModel]="maxPrice()"
-            (ngModelChange)="maxPrice.set($event ? +$event : null)" name="maxPrice" placeholder="MAX PREZZO" min="1"
-            class="w-full min-h-[46px] px-3 py-2.5 bg-[var(--bg-input)] border border-[var(--keyline)] rounded-xl text-[var(--ink-primary)] placeholder-[var(--ink-faint)] text-xs font-mono focus:outline-none focus:border-[var(--beacon-blue)] transition-all" />
-        </div>
-      </div>
-
-      <!-- Quick Destination Badges (mikes.cv inspired mono pill selection) -->
-      <div class="flex items-center flex-wrap gap-2 pt-4 border-t border-[var(--keyline)]">
-        <span class="font-editorial-mono text-[11px] text-[var(--ink-faint)] mr-2">RADAR PRESETS:</span>
-        <div class="flex flex-wrap gap-1.5">
-          @for (chip of popularAirports; track chip.code) {
-          <button type="button"
-            class="inline-flex items-center gap-1.5 min-h-[34px] px-3 py-1 rounded-full text-xs font-editorial-mono border transition-all cursor-pointer active:scale-95"
-            [class]="
-                arrivalId() === chip.code
-                  ? 'bg-[var(--beacon-blue)] text-white border-[var(--beacon-blue)] shadow-[0_0_12px_rgba(44,111,255,0.4)]'
-                  : 'bg-[var(--bg-input)] border-[var(--keyline)] text-[var(--ink-secondary)] hover:text-[var(--ink-primary)] hover:border-[var(--keyline-hover)]'
-              " (click)="selectPopularAirport(chip.code)">
-            <span>{{ chip.label }}</span>
-            @if (chip.code) {
-            <span class="text-[10px] opacity-60">[{{ chip.code }}]</span>
-            }
-          </button>
-          }
-        </div>
-      </div>
-
-      <!-- Action Button -->
-      <div class="pt-2">
-        <button type="submit" [disabled]="isLoading()"
-          class="w-full min-h-[50px] py-3.5 px-6 rounded-xl font-editorial-mono text-xs font-bold tracking-widest text-[var(--btn-primary-text)] bg-[var(--btn-primary-bg)] hover:opacity-90 shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.99]">
-          @if (isLoading()) {
-          <span
-            class="inline-block w-4 h-4 border-2 border-[var(--btn-primary-text)] border-t-transparent rounded-full animate-spin"
-            aria-hidden="true"></span>
-          <span>SCANNING RADAR & QUERYING REDIS CACHE...</span>
-          } @else {
-          <svg lucideSearch class="w-4 h-4"></svg>
-          <span>ESEGUI RICERCA TARIFFA OTTIMALE [SEARCH]</span>
-          }
-        </button>
-      </div>
-    </form>
-  </section>
+  <app-flight-form [(filters)]="filters" [isLoading]="isLoading()" (search)="onSearch()" />
 
   <!-- Error Alert -->
   @if (errorMessage()) {
@@ -287,39 +99,43 @@
           class="inline-flex p-1 rounded-xl bg-[var(--bg-input)] border border-[var(--keyline)] font-editorial-mono text-[11px]"
           role="tablist">
           <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'all'" (click)="setFilterTab('all')"
-            class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer" [class]="
-                activeTab() === 'all'
-                  ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
-                  : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
-              ">
-            TUTTE
+            class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5" [class]="
+                  activeTab() === 'all'
+                    ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
+                    : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
+                ">
+            <span>TUTTE</span>
+            <span class="text-[10px] opacity-75 font-mono">({{ tabCounts().all }})</span>
           </button>
           <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'under50'"
-            (click)="setFilterTab('under50')" class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer"
-            [class]="
-                activeTab() === 'under50'
-                  ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
-                  : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
-              ">
-            &le; 50€
+            (click)="setFilterTab('under50')"
+            class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5" [class]="
+                  activeTab() === 'under50'
+                    ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
+                    : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
+                ">
+            <span>&le; 50€</span>
+            <span class="text-[10px] opacity-75 font-mono">({{ tabCounts().under50 }})</span>
           </button>
           <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'direct'"
-            (click)="setFilterTab('direct')" class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer"
-            [class]="
-                activeTab() === 'direct'
-                  ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
-                  : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
-              ">
-            DIRETTI
+            (click)="setFilterTab('direct')"
+            class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5" [class]="
+                  activeTab() === 'direct'
+                    ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
+                    : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
+                ">
+            <span>DIRETTI</span>
+            <span class="text-[10px] opacity-75 font-mono">({{ tabCounts().direct }})</span>
           </button>
           <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'topDiscount'"
             (click)="setFilterTab('topDiscount')"
-            class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer" [class]="
-                activeTab() === 'topDiscount'
-                  ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
-                  : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
-              ">
-            TOP SCONTO
+            class="min-h-[30px] px-3 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5" [class]="
+                  activeTab() === 'topDiscount'
+                    ? 'bg-[var(--bg-surface)] text-[var(--ink-primary)] font-bold shadow-sm'
+                    : 'text-[var(--ink-faint)] hover:text-[var(--ink-secondary)]'
+                ">
+            <span>TOP SCONTO</span>
+            <span class="text-[10px] opacity-75 font-mono">({{ tabCounts().topDiscount }})</span>
           </button>
         </div>
 
@@ -339,124 +155,7 @@
     @if (visibleFlights().length > 0) {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       @for (flight of visibleFlights(); track $index) {
-      <article
-        class="group bg-[var(--bg-card)] border border-[var(--keyline)] rounded-2xl p-5 hover:border-[var(--keyline-hover)] hover:bg-[var(--bg-card-hover)] transition-all duration-300 flex flex-col justify-between shadow-lg relative overflow-hidden">
-        <!-- Top line: City & Discount Badge -->
-        <div>
-          <div class="flex items-start justify-between gap-3 mb-4">
-            <div>
-              <h3
-                class="text-lg font-bold text-[var(--ink-primary)] tracking-tight group-hover:text-[var(--beacon-blue)] transition-colors">
-                {{ flight.nameCity || flight.arrivalAirport }}
-              </h3>
-              <p class="font-editorial-mono text-[10px] text-[var(--ink-faint)]">
-                {{ flight.country }}
-              </p>
-            </div>
-            @if ((flight.discountPercentage ?? 0) > 0) {
-            <span
-              class="inline-flex items-center px-2 py-0.5 rounded-full font-editorial-mono text-[11px] font-bold bg-[var(--beacon-emerald)]/10 text-[var(--beacon-emerald)] border border-[var(--beacon-emerald)]/30">
-              -{{ flight.discountPercentage }}%
-            </span>
-            }
-          </div>
-
-          <!-- Flight Route Visual Strip (Timeline inspired by mikes.cv route track) -->
-          <div class="bg-[var(--bg-input)] rounded-xl p-3.5 border border-[var(--keyline)] mb-4 relative">
-            <div class="flex items-center justify-between">
-              <!-- Origin -->
-              <div class="text-left">
-                <div class="font-editorial-mono text-sm font-bold text-[var(--ink-primary)]">
-                  {{ flight.departureAirport }}
-                </div>
-                <div class="font-editorial-mono text-[9px] text-[var(--ink-faint)]">
-                  ORIGIN
-                </div>
-              </div>
-
-              <!-- Visual Route Connector -->
-              <div class="flex-1 mx-4 flex flex-col items-center">
-                <div class="w-full flex items-center gap-1.5">
-                  <span
-                    class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-blue)] shadow-[0_0_6px_var(--beacon-blue)]"></span>
-                  <div class="flex-1 h-px flight-path-dashed"></div>
-                  <svg class="w-3.5 h-3.5 text-[var(--beacon-blue)] transform rotate-90 shrink-0" fill="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z">
-                    </path>
-                  </svg>
-                  <div class="flex-1 h-px flight-path-dashed"></div>
-                  <span
-                    class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-emerald)] shadow-[0_0_6px_var(--beacon-emerald)]"></span>
-                </div>
-                <span class="font-editorial-mono text-[9px] font-bold text-[var(--beacon-blue)] mt-1.5">
-                  {{ flight.stops === 0 ? 'NON-STOP DIRECT' : flight.stops + ' SCALO' }}
-                </span>
-              </div>
-
-              <!-- Destination -->
-              <div class="text-right">
-                <div class="font-editorial-mono text-sm font-bold text-[var(--ink-primary)]">
-                  {{ flight.arrivalAirport }}
-                </div>
-                <div class="font-editorial-mono text-[9px] text-[var(--ink-faint)]">DEST</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Meta Badges in Monospace -->
-          <div class="flex items-center gap-2 flex-wrap text-xs text-[var(--ink-secondary)] mb-5">
-            <span
-              class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[var(--bg-input)] border border-[var(--keyline)] font-editorial-mono text-[10px]">
-              <span>AIRLINE:</span>
-              <span class="text-[var(--ink-primary)]">{{ flight.airline || 'N/D' }}</span>
-            </span>
-            <span
-              class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[var(--bg-input)] border border-[var(--keyline)] font-editorial-mono text-[10px]">
-              <span>TIME:</span>
-              <span class="text-[var(--ink-primary)]">{{
-                formatDuration(flight.durationInMinutes)
-                }}</span>
-            </span>
-            @if (flight.outboundDate) {
-            <span
-              class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-[var(--bg-input)] border border-[var(--keyline)] font-editorial-mono text-[10px]">
-              <svg lucideCalendar class="w-3 h-3 text-[var(--beacon-blue)]"></svg>
-              <span>DATE:</span>
-              <span class="text-[var(--ink-primary)] font-mono">
-                {{ flight.outboundDate }}@if (flight.returnDate) { → {{ flight.returnDate }}}
-              </span>
-            </span>
-            }
-          </div>
-        </div>
-
-        <!-- Footer with Price & Action -->
-        <div class="flex items-center justify-between pt-3.5 border-t border-[var(--keyline)] mt-auto">
-          <div>
-            @if ((flight.averagePrice ?? 0) > (flight.price ?? 0)) {
-            <span class="block font-editorial-mono text-[10px] text-[var(--ink-faint)] line-through">
-              AVG {{ flight.averagePrice }} {{ flight.currency }}
-            </span>
-            }
-            <div class="text-2xl font-bold font-mono text-[var(--ink-primary)] tracking-tight">
-              {{ flight.price }}
-              <span class="text-xs font-editorial-mono text-[var(--beacon-blue)]">{{
-                flight.currency
-                }}</span>
-            </div>
-          </div>
-
-          @if (flight.flightLink) {
-          <a [href]="flight.flightLink" target="_blank" rel="noopener noreferrer"
-            class="min-h-[38px] inline-flex items-center gap-1.5 px-4 py-2 rounded-xl font-editorial-mono text-[11px] font-bold bg-[var(--btn-primary-bg)] hover:opacity-90 text-[var(--btn-primary-text)] transition-all shadow-sm active:scale-95">
-            <span>BOOK</span>
-            <svg lucideExternalLink class="w-3.5 h-3.5"></svg>
-          </a>
-          }
-        </div>
-      </article>
+      <app-flight-card [flight]="flight" />
       }
     </div>
     } @else {
@@ -484,63 +183,8 @@
     }
     }
   </section>
-
+  }
   <!-- Technical Value Proposition Section (mikes.cv numbered index blocks) -->
-  <section class="mt-24 pt-12 border-t border-[var(--keyline)]">
-    <div class="mb-10">
-      <div class="flex items-center gap-2 mb-2">
-        <span class="w-1.5 h-1.5 rounded-full bg-[var(--beacon-emerald)]"></span>
-        <span class="font-editorial-mono text-[11px] text-[var(--ink-secondary)] tracking-widest uppercase">
-          INDEX // TECHNICAL ARCHITECTURE
-        </span>
-      </div>
-      <h2 class="text-2xl font-bold text-[var(--ink-primary)] tracking-tight">
-        Architettura ingegnerizzata per prestazioni e affidabilità.
-      </h2>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div
-        class="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm">
-        <div class="font-editorial-mono text-xs font-bold text-[var(--beacon-blue)] mb-3">
-          01 // REDIS MEMORY LAYER
-        </div>
-        <h3 class="text-base font-semibold text-[var(--ink-primary)] mb-2">
-          Cache Distribuita Redis 7
-        </h3>
-        <p class="text-xs text-[var(--ink-secondary)] leading-relaxed">
-          Le chiamate per la medesima rotta vengono cachate in RAM con TTL di 10 minuti, azzerando
-          le latenze e preservando la quota API SerpApi.
-        </p>
-      </div>
-
-      <div
-        class="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm">
-        <div class="font-editorial-mono text-xs font-bold text-[var(--beacon-emerald)] mb-3">
-          02 // INTELLIGENCE ENGINE
-        </div>
-        <h3 class="text-base font-semibold text-[var(--ink-primary)] mb-2">
-          Algoritmo di Sconto Google
-        </h3>
-        <p class="text-xs text-[var(--ink-secondary)] leading-relaxed">
-          Integrazione diretta con il motore Google Flights Deals via SerpApi: rilevamento
-          automatico delle anomalie di prezzo rispetto allo storico medio.
-        </p>
-      </div>
-
-      <div
-        class="p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--keyline)] hover:border-[var(--keyline-hover)] transition-all shadow-sm">
-        <div class="font-editorial-mono text-xs font-bold text-amber-500 mb-3">
-          03 // CONTRACT INTEGRITY
-        </div>
-        <h3 class="text-base font-semibold text-[var(--ink-primary)] mb-2">
-          Type-Safe con Orval & .NET 10
-        </h3>
-        <p class="text-xs text-[var(--ink-secondary)] leading-relaxed">
-          Endpoint C# FastEndpoints sincronizzati con OpenAPI Swagger e generatore Orval, garantendo
-          tipizzazione statica assoluta nel frontend.
-        </p>
-      </div>
-    </div>
-  </section>
+  <app-flight-architecture />
+  <app-flight-architecture />
 </div>
